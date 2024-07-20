@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:luna/model/usuario.dart';
+import 'package:luna/routes/routes.dart';
+import 'package:luna/view/perfil/manter_perfil.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +35,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        Routes.home: (context) => const MyHomePage(title: 'LUNA'),
+        Routes.usuarioEdit:(context) => const EditarUsuarioPage()
+      },
     );
   }
 }
@@ -49,6 +56,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  static const String routeName = '/home';
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -108,6 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, EditarUsuarioPage.routeName);
+            }, child: Text("Manter Perfil")),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,

@@ -122,9 +122,9 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map m = ModalRoute.of(context)!.settings.arguments as Map;
+    /*final Map m = ModalRoute.of(context)!.settings.arguments as Map;
     _id = m["id"];
-    _obterUsuario();
+    _obterUsuario();*/
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
