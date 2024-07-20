@@ -54,33 +54,154 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
       Form(
           key: _formKey,
           child: ListView(shrinkWrap: true, children: [
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Row(
+            children: [
               Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 8),
-                      child: TextFormField(
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(), labelText: 'CPF'),
-                          /*controller: _cpfController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Campo não pode ser vazio';
-                            }
-                            if (value.length < 14) {
-                              return 'CPF incorreto';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            MaskTextInputFormatter(
-                                mask: '###.###.###-##',
-                                filter: {"#": RegExp(r'[0-9]')},
-                                type: MaskAutoCompletionType.lazy)
-                          ]*/
-                          )))
-            ]),
+                child: ListTile(
+            title: Text('Nome completo'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Nome completo',
+                  ),
+                ),),
+              ),
+            ],
+          ),
+            Row(
+            children: [
+              Expanded(
+                child: ListTile(
+            title: Text('Idade'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Idade',
+                  ),
+                ),),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child:ListTile(
+            title: Text('Peso'),
+            subtitle:  TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Peso',
+                  ),
+                ),),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child:ListTile(
+              title: Text('Altura'),
+              subtitle:  TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4))),
+                      hintText: '  Altura',
+                    ),
+                  ),),
+                ),
+            ],
+          ),
+            Row(
+            children: [
+              Expanded(
+                child: ListTile(
+            title: Text('Email'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Email',
+                  ),
+                ),),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: ListTile(
+            title: Text('Endereço'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Endereço',
+                  ),
+                ),),
+              ),
+            ],
+          ),
+            
+            Row(
+            children: [
+              Expanded(
+                child: ListTile(
+            title: Text('Número'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Número',
+                  ),
+                ),),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child:ListTile(
+            title: Text('Bairro'),
+            subtitle:  TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Bairro',
+                  ),
+                ),),
+              ),
+            ],
+          ),
+            Row(
+            children: [
+              Expanded(
+                child: ListTile(
+            title: Text('Cidade'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Cidade',
+                  ),
+                ),),
+              ),
+            ],
+          ),
+            Row(
+            children: [
+              Expanded(
+                child: ListTile(
+            title: Text('Telefone'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Telefone',
+                  ),
+                ),),
+              ),
+            ],
+          ),
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Expanded(
                   child: Padding(
@@ -88,7 +209,7 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                           horizontal: 8, vertical: 8),
                       child: TextFormField(
                         decoration: const InputDecoration(
-                            border: OutlineInputBorder(), labelText: 'Nome'),
+                            border: OutlineInputBorder(), labelText: 'Experiência'),
                         controller: _nomeController,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -97,6 +218,23 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                           return null;
                         },
                       )))
+            ]),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(), labelText: 'Senha'),
+                        controller: _nomeController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Campo não pode ser vazio';
+                          }
+                          return null;
+                        },
+                      )),)
             ]),
             /*
             Row(mainAxisAlignment: MainAxisAlignment.center, 
@@ -129,6 +267,7 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
         title: const Text("Editar Usuario"),
+        backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
       ),
       //drawer: const AppDrawer(),
       body: _buildForm(context),
