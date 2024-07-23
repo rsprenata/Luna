@@ -2,34 +2,43 @@ import 'dart:convert';
 
 class Usuario {
   int? id;
-  String login;
+  String email;
   String senha;
   String endereco;
+  String bairroEndereco;
+  String numeroEndereco;
+  String cidadeEndereco;
   String telefone;
   String nome;
 
-  Usuario(this.id, this.nome, this.login, this.senha, this.endereco, this.telefone);
-  Usuario.novo(this.nome, this.login, this.senha, this.endereco, this.telefone);
+  Usuario(this.id, this.nome, this.email, this.senha, this.endereco, this.telefone, this.bairroEndereco, this.numeroEndereco, this.cidadeEndereco);
+  Usuario.novo(this.nome, this.email, this.senha, this.endereco, this.telefone, this.bairroEndereco, this.numeroEndereco, this.cidadeEndereco);
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'login': login,
+      'login': email,
       'nome': nome,
       'senha': senha,
       'endereco': endereco,
-      'telefone': telefone
+      'telefone': telefone,
+      'bairroEndereco': bairroEndereco,
+      'numeroEndereco': numeroEndereco,
+      'cidadeEndereco': cidadeEndereco
     };
   }
 
   static Usuario fromMap(Map<String, dynamic> map) {
     return Usuario(
       map['id'],
-      map['login'],
+      map['email'],
       map['nome'],
       map['senha'],
       map['endereco'],
-      map['telefone']
+      map['telefone'],
+      map['bairroEndereco'],
+      map['numeroEndereco'],
+      map['cidadeEndereco'],
     );
   }
 
