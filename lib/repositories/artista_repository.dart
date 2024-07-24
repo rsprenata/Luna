@@ -9,6 +9,9 @@ class ArtistaRepository {
   Future<Artista> alterar(Artista artista) async {
     return await api.alterar(artista);
   }
+  Future<Artista> inserir(Artista artista) async {
+    return await api.inserir(artista);
+  }
 /*
   Future<Usuario?> buscarPorCpf(String cpf) async {
     return await api.buscarPorCpf(cpf);
@@ -18,9 +21,7 @@ class ArtistaRepository {
     return await api.buscarTodos();
   }
 
-  Future<Usuario> inserir(Usuario usuario) async {
-    return await api.inserir(usuario);
-  }
+  
 
   Future<Usuario> remover(int id) async {
     return await api.remover(id);

@@ -17,7 +17,7 @@ class ArtistaRest{
 
   Future<Artista> alterar(Artista artista) async {
     final http.Response response = await http.put(
-      Uri.http(API.endpoint, 'artistas/${artista.id}'),
+      Uri.http(API.endpoint, 'artista/${artista.id}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -27,6 +27,21 @@ class ArtistaRest{
       return artista;
     } else {
       throw Exception('Erro alterando cliente ${artista.id}.');
+    }
+  }
+
+  Future<Artista> inserir(Artista artista) async {
+    print(artista.toJson());
+    final http.Response response =
+        await http.post(Uri.http(API.endpoint, 'artista/'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: artista.toJson());
+    if (response.statusCode == 200) {
+      return Artista.fromJson(response.body);
+    } else {
+      throw Exception('Erro inserindo artista.');
     }
   }
 /*
@@ -51,19 +66,7 @@ class ArtistaRest{
     }
   }
 
-  Future<Cliente> inserir(Cliente cliente) async {
-    final http.Response response =
-        await http.post(Uri.http(API.endpoint, 'clientes/'),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: cliente.toJson());
-    if (response.statusCode == 200) {
-      return Cliente.fromJson(response.body);
-    } else {
-      throw Exception('Erro inserindo cliente.');
-    }
-  }
+  
 
   Future<Cliente> remover(int id) async {
     final http.Response response = await http
