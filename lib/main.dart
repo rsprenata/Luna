@@ -4,6 +4,7 @@ import 'package:luna/routes/routes.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_empresa.dart';
 import 'package:luna/view/perfil/ver_perfil_artista.dart';
+import 'package:luna/view/vaga/inserir_vaga.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         Routes.home: (context) => const MyHomePage(title: 'LUNA'),
         Routes.usuarioEdit:(context) => const EditarUsuarioArtistaPage(),
         Routes.verPerfil:(context) => const VerUsuarioArtistaPage(),
+        Routes.inserirVaga:(context) => const InserirVagaPage(),
         //FIXME Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage()
       },
     );
@@ -99,6 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.pushNamed(context, VerUsuarioArtistaPage.routeName,
         arguments: <String, int>{"id": 10});
             }, child: Text("Ver Perfil")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, InserirVagaPage.routeName);
+            }, child: Text("Nova Vaga")),
             
           ],
         ),
