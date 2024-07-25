@@ -42,7 +42,7 @@ rule CXX_EXECUTABLE_LINKER__luna
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /snap/flutter/145/usr/bin/cmake -S/home/shetaki/Luna/linux -B/home/shetaki/Luna/build/linux/x64/debug
+  command = /snap/flutter/145/usr/bin/cmake -S/home/forno/Luna/linux -B/home/forno/Luna/build/linux/x64/debug
   description = Re-running CMake...
   generator = 1
 

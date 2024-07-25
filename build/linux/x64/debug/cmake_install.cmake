@@ -1,8 +1,8 @@
-# Install script for directory: /home/shetaki/Luna/linux
+# Install script for directory: /home/forno/Luna/linux
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/shetaki/Luna/build/linux/x64/debug/bundle")
+  set(CMAKE_INSTALL_PREFIX "/home/forno/Luna/build/linux/x64/debug/bundle")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,95 +39,95 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   
-  file(REMOVE_RECURSE "/home/shetaki/Luna/build/linux/x64/debug/bundle/")
+  file(REMOVE_RECURSE "/home/forno/Luna/build/linux/x64/debug/bundle/")
   
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/home/shetaki/Luna/build/linux/x64/debug/bundle/luna" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/shetaki/Luna/build/linux/x64/debug/bundle/luna")
+  if(EXISTS "$ENV{DESTDIR}/home/forno/Luna/build/linux/x64/debug/bundle/luna" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/forno/Luna/build/linux/x64/debug/bundle/luna")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/home/shetaki/Luna/build/linux/x64/debug/bundle/luna"
+         FILE "$ENV{DESTDIR}/home/forno/Luna/build/linux/x64/debug/bundle/luna"
          RPATH "$ORIGIN/lib")
   endif()
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/shetaki/Luna/build/linux/x64/debug/bundle/luna")
+   "/home/forno/Luna/build/linux/x64/debug/bundle/luna")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/shetaki/Luna/build/linux/x64/debug/bundle" TYPE EXECUTABLE FILES "/home/shetaki/Luna/build/linux/x64/debug/intermediates_do_not_run/luna")
-  if(EXISTS "$ENV{DESTDIR}/home/shetaki/Luna/build/linux/x64/debug/bundle/luna" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/home/shetaki/Luna/build/linux/x64/debug/bundle/luna")
+file(INSTALL DESTINATION "/home/forno/Luna/build/linux/x64/debug/bundle" TYPE EXECUTABLE FILES "/home/forno/Luna/build/linux/x64/debug/intermediates_do_not_run/luna")
+  if(EXISTS "$ENV{DESTDIR}/home/forno/Luna/build/linux/x64/debug/bundle/luna" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/home/forno/Luna/build/linux/x64/debug/bundle/luna")
     file(RPATH_CHANGE
-         FILE "$ENV{DESTDIR}/home/shetaki/Luna/build/linux/x64/debug/bundle/luna"
-         OLD_RPATH "/home/shetaki/Luna/linux/flutter/ephemeral:"
+         FILE "$ENV{DESTDIR}/home/forno/Luna/build/linux/x64/debug/bundle/luna"
+         OLD_RPATH "/home/forno/Luna/linux/flutter/ephemeral:"
          NEW_RPATH "$ORIGIN/lib")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/snap/flutter/current/usr/bin/strip" "$ENV{DESTDIR}/home/shetaki/Luna/build/linux/x64/debug/bundle/luna")
+      execute_process(COMMAND "/snap/flutter/current/usr/bin/strip" "$ENV{DESTDIR}/home/forno/Luna/build/linux/x64/debug/bundle/luna")
     endif()
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/shetaki/Luna/build/linux/x64/debug/bundle/data/icudtl.dat")
+   "/home/forno/Luna/build/linux/x64/debug/bundle/data/icudtl.dat")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/shetaki/Luna/build/linux/x64/debug/bundle/data" TYPE FILE FILES "/home/shetaki/Luna/linux/flutter/ephemeral/icudtl.dat")
+file(INSTALL DESTINATION "/home/forno/Luna/build/linux/x64/debug/bundle/data" TYPE FILE FILES "/home/forno/Luna/linux/flutter/ephemeral/icudtl.dat")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/shetaki/Luna/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so")
+   "/home/forno/Luna/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/shetaki/Luna/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/shetaki/Luna/linux/flutter/ephemeral/libflutter_linux_gtk.so")
+file(INSTALL DESTINATION "/home/forno/Luna/build/linux/x64/debug/bundle/lib" TYPE FILE FILES "/home/forno/Luna/linux/flutter/ephemeral/libflutter_linux_gtk.so")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/shetaki/Luna/build/linux/x64/debug/bundle/lib/")
+   "/home/forno/Luna/build/linux/x64/debug/bundle/lib/")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/shetaki/Luna/build/linux/x64/debug/bundle/lib" TYPE DIRECTORY FILES "/home/shetaki/Luna/build/native_assets/linux/")
+file(INSTALL DESTINATION "/home/forno/Luna/build/linux/x64/debug/bundle/lib" TYPE DIRECTORY FILES "/home/forno/Luna/build/native_assets/linux/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   
-  file(REMOVE_RECURSE "/home/shetaki/Luna/build/linux/x64/debug/bundle/data/flutter_assets")
+  file(REMOVE_RECURSE "/home/forno/Luna/build/linux/x64/debug/bundle/data/flutter_assets")
   
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/shetaki/Luna/build/linux/x64/debug/bundle/data/flutter_assets")
+   "/home/forno/Luna/build/linux/x64/debug/bundle/data/flutter_assets")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/shetaki/Luna/build/linux/x64/debug/bundle/data" TYPE DIRECTORY FILES "/home/shetaki/Luna/build//flutter_assets")
+file(INSTALL DESTINATION "/home/forno/Luna/build/linux/x64/debug/bundle/data" TYPE DIRECTORY FILES "/home/forno/Luna/build//flutter_assets")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/shetaki/Luna/build/linux/x64/debug/flutter/cmake_install.cmake")
+  include("/home/forno/Luna/build/linux/x64/debug/flutter/cmake_install.cmake")
 
 endif()
 
@@ -139,5 +139,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/shetaki/Luna/build/linux/x64/debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/forno/Luna/build/linux/x64/debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
