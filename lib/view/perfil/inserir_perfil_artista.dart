@@ -9,15 +9,15 @@ import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class VerUsuarioArtistaPage extends StatefulWidget {
-  static const String routeName = '/perfil/ver';
+class EditarUsuarioArtistaPage extends StatefulWidget {
+  static const String routeName = '/perfil/editar';
 
-  const VerUsuarioArtistaPage({super.key});
+  const EditarUsuarioArtistaPage({super.key});
   @override
-  _VerUsuarioArtistaPageState createState() => _VerUsuarioArtistaPageState();
+  _EditarUsuarioArtistaPageState createState() => _EditarUsuarioArtistaPageState();
 }
 
-class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
+class _EditarUsuarioArtistaPageState extends State<EditarUsuarioArtistaPage> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _bairroController = TextEditingController();
@@ -44,49 +44,33 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
   void _obterUsuario() async {
     try {
       //var maskFormatter = MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
-      ArtistaRepository repository = ArtistaRepository();
-      Artista _artista = await repository.buscar(_id);
-
-      _nomeController.text = _artista!.nome;
-      _enderecoController.text = _artista!.endereco;
-      _bairroController.text = _artista!.bairroEndereco;
-      _cidadeController.text = _artista!.cidadeEndereco;
-      _numeroController.text = _artista!.numeroEndereco;
-      _enderecoController.text = _artista!.endereco;
-      _pesoController.text = _artista!.peso;
-      _emailController.text = _artista!.email;
-      _telefoneController.text = _artista!.telefone;
-      _experienciaController.text = _artista!.experiencia;
-      _senhaController.text = _artista!.senha;
-      _alturaController.text = _artista!.altura;
-
+      UsuarioRepository repository = UsuarioRepository();
+      _usuario = await repository.buscar(_id);
+      _nomeController.text = _usuario!.nome;
     } catch (exception) {
-      showError(context, "Erro recuperando artista", exception.toString());
+      showError(context, "Erro recuperando usuario", exception.toString());
       Navigator.pop(context);
     }
   }
 
   void _salvar() async {
     Artista _artista = Artista.novo(_nomeController.text, _emailController.text, _senhaController.text, _enderecoController.text,_telefoneController.text,
-     _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text);
+     _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
 
     try {
       ArtistaRepository repository = ArtistaRepository();
       await repository.inserir(_artista!);
     _nomeController.clear();
-    _experienciaController.clear();
+    _enderecoController.clear();
     _bairroController.clear();
     _cidadeController.clear();
     _numeroController.clear();
     _enderecoController.clear();
-    _senhaController.clear();
-    _alturaController.clear();
     _pesoController.clear();
-    _idadeController.clear();
+    _enderecoController.clear();
     _enderecoController.clear();
     _emailController.clear();
     _telefoneController.clear();
-
 
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Artista inserido com sucesso.')));
@@ -311,13 +295,13 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map m = ModalRoute.of(context)!.settings.arguments as Map;
+    /*final Map m = ModalRoute.of(context)!.settings.arguments as Map;
     _id = m["id"];
-    _obterUsuario();
+    _obterUsuario();*/
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: const Text("Editar Usuario"),
+        title: const Text("Novo perfil"),
         backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
       ),
       //drawer: const AppDrawer(),

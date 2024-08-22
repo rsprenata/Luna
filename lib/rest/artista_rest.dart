@@ -16,6 +16,7 @@ class ArtistaRest{
   }
 
   Future<Artista> alterar(Artista artista) async {
+    print(artista.toJson());
     final http.Response response = await http.put(
       Uri.http(API.endpoint, 'artista/${artista.id}'),
       headers: <String, String>{

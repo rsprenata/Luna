@@ -1,5 +1,11 @@
 # luna
 
+# abrir o intellij:
+- ./idea.sh
+- em:
+- /opt/idea-IU-241.18034.62/bin
+- mvn spring-boot:run
+
 A new Flutter project.
 
 ## Getting Started

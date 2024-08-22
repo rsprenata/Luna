@@ -11,21 +11,21 @@ import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class VerVagaPage extends StatefulWidget {
-  static const String routeName = '/perfil/ver';
+class ManterVagaPage extends StatefulWidget {
+  static const String routeName = '/vaga/manter';
 
-  const VerVagaPage({super.key});
+  const ManterVagaPage({super.key});
   @override
-  _VerVagaPageState createState() => _VerVagaPageState();
+  ManterVagaPageState createState() => ManterVagaPageState();
 }
 
-class _VerVagaPageState extends State<VerVagaPage> {
+class ManterVagaPageState extends State<ManterVagaPage> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _descricaoController = TextEditingController();
   final _valorController = TextEditingController();
   final _dataController = TextEditingController();
-  final _qtdVagaController = TextEditingController();
+  final _qtdVagasController = TextEditingController();
 
   int _id = 0;
   @override
@@ -34,51 +34,57 @@ class _VerVagaPageState extends State<VerVagaPage> {
     super.dispose();
   }
 
+  late Vaga _vaga;
+
   void _obterVaga() async {
     try {
       //var maskFormatter = MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
       VagaRepository repository = VagaRepository();
-      Vaga vaga = await repository.buscar(_id);
-
-      _nomeController.text = vaga!.nome;
-      _descricaoController.text = vaga!.descricao;
-      _valorController.text = vaga!.valor;
-      _dataController.text = vaga!.data;
-      _qtdVagaController.text = vaga!.qtdVagas.toString();
-
+      Vaga _vaga = await repository.buscar(_id);
+      _nomeController.text = _vaga!.nome;
     } catch (exception) {
-      showError(context, "Erro recuperando artista", exception.toString());
+      showError(context, "Erro recuperando vaga", exception.toString());
       Navigator.pop(context);
     }
   }
 
   void _salvar() async {
-    Artista _artista = Artista.novo(_nomeController.text, _emailController.text, _senhaController.text, _enderecoController.text,_telefoneController.text,
-     _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text);
+    _vaga = Vaga.novo(_nomeController.text, _descricaoController.text, _valorController.text, _dataController.text,int.parse(_qtdVagasController.text));
+    
 
     try {
-      ArtistaRepository repository = ArtistaRepository();
-      await repository.inserir(_artista!);
-    _nomeController.clear();
-    _experienciaController.clear();
-    _bairroController.clear();
-    _cidadeController.clear();
-    _numeroController.clear();
-    _enderecoController.clear();
-    _senhaController.clear();
-    _alturaController.clear();
-    _pesoController.clear();
-    _idadeController.clear();
-    _enderecoController.clear();
-    _emailController.clear();
-    _telefoneController.clear();
-
+      VagaRepository repository = VagaRepository();
+      await repository.inserir(_vaga!);
+      _nomeController.clear();
+      _dataController.clear();
+      _descricaoController.clear();
+      _valorController.clear();
+      _qtdVagasController.clear();
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Artista inserido com sucesso.')));
+          const SnackBar(content: Text('Vaga inserida com sucesso.')));
       Navigator.pop(context);
     } catch (exception) {
-      showError(context, "Erro inserindo artista", exception.toString());
+      showError(context, "Erro inserindo vaga", exception.toString());
+    }
+  }
+
+  void _alterar() async {
+    _vaga.nome = _nomeController.text;
+    _vaga.descricao = _descricaoController.text;
+    _vaga.data = _dataController.text;
+    _vaga.qtdVagas = int.parse(_qtdVagasController.text);
+    _vaga.valor = _valorController.text;
+
+    try {
+      VagaRepository repository = VagaRepository();
+      await repository.alterar(_vaga);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Vaga editada com sucesso.')));
+      Navigator.pop(context);
+    } catch (exception) {
+      showError(context, "Erro editando vaga", exception.toString());
     }
   }
 
@@ -190,13 +196,13 @@ class _VerVagaPageState extends State<VerVagaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map m = ModalRoute.of(context)!.settings.arguments as Map;
+    /*final Map m = ModalRoute.of(context)!.settings.arguments as Map;
     _id = m["id"];
-    _obterUsuario();
+    _obterUsuario();*/
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: const Text("Editar Usuario"),
+        title: const Text("Editar vaga"),
         backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
       ),
       //drawer: const AppDrawer(),

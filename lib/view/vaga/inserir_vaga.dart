@@ -29,7 +29,6 @@ class _InserirVagaPageState extends State<InserirVagaPage> {
 
   int _id = 0;
   bool isArtista = false;
-  Usuario? _usuario;
   @override
   void dispose() {
     _nomeController.dispose();
@@ -62,7 +61,7 @@ class _InserirVagaPageState extends State<InserirVagaPage> {
       _qtdVagasController.clear();
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Vaga inserido com sucesso.')));
+          const SnackBar(content: Text('Vaga inserida com sucesso.')));
       Navigator.pop(context);
     } catch (exception) {
       showError(context, "Erro inserindo vaga", exception.toString());
@@ -183,7 +182,7 @@ class _InserirVagaPageState extends State<InserirVagaPage> {
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: const Text("Editar Usuario"),
+        title: const Text("Inserir nova vaga"),
         backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
       ),
       //drawer: const AppDrawer(),

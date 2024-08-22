@@ -1,7 +1,7 @@
 import 'package:luna/main.dart';
+import 'package:luna/view/perfil/inserir_perfil_artista.dart';
+import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
-import 'package:luna/view/perfil/manter_perfil_empresa.dart';
-import 'package:luna/view/perfil/ver_perfil_artista.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/inserir_vaga.dart';
 
