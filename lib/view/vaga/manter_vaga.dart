@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterVagaPage extends StatefulWidget {
-  static const String routeName = '/vaga/manter';
+  static const String routeName = '/vaga/inserir';
 
   const ManterVagaPage({super.key});
   @override
-  ManterVagaPageState createState() => ManterVagaPageState();
+  _ManterVagaPageState createState() => _ManterVagaPageState();
 }
 
-class ManterVagaPageState extends State<ManterVagaPage> {
+class _ManterVagaPageState extends State<ManterVagaPage> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _descricaoController = TextEditingController();
@@ -27,21 +27,29 @@ class ManterVagaPageState extends State<ManterVagaPage> {
   final _dataController = TextEditingController();
   final _qtdVagasController = TextEditingController();
 
-  int _id = 0;
+  int? _id;
+  bool isArtista = false;
+  late Vaga _vaga;
   @override
   void dispose() {
     _nomeController.dispose();
+    _dataController.dispose();
+    _descricaoController.dispose();
+    _valorController.dispose();
+    _qtdVagasController.dispose();
     super.dispose();
   }
-
-  late Vaga _vaga;
 
   void _obterVaga() async {
     try {
       //var maskFormatter = MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
       VagaRepository repository = VagaRepository();
-      Vaga _vaga = await repository.buscar(_id);
-      _nomeController.text = _vaga!.nome;
+      _vaga = await repository.buscar(_id!);
+      _nomeController.text = _vaga.nome;
+      _dataController.text = _vaga.data;
+      _descricaoController.text = _vaga.descricao;
+      _qtdVagasController.text = _vaga.qtdVagas.toString();
+      _valorController.text = _vaga.valor;
     } catch (exception) {
       showError(context, "Erro recuperando vaga", exception.toString());
       Navigator.pop(context);
@@ -70,9 +78,9 @@ class ManterVagaPageState extends State<ManterVagaPage> {
   }
 
   void _alterar() async {
-    _vaga.nome = _nomeController.text;
-    _vaga.descricao = _descricaoController.text;
     _vaga.data = _dataController.text;
+    _vaga.descricao = _descricaoController.text;
+    _vaga.nome = _nomeController.text;
     _vaga.qtdVagas = int.parse(_qtdVagasController.text);
     _vaga.valor = _valorController.text;
 
@@ -178,7 +186,11 @@ class ManterVagaPageState extends State<ManterVagaPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _salvar();
+                    if(_id != null) {
+                      _alterar();
+                    } else {
+                      _salvar();
+                    }
                   }
                 },
                 child: const Text('Salvar')
@@ -196,13 +208,16 @@ class ManterVagaPageState extends State<ManterVagaPage> {
 
   @override
   Widget build(BuildContext context) {
-    /*final Map m = ModalRoute.of(context)!.settings.arguments as Map;
-    _id = m["id"];
-    _obterUsuario();*/
+    final Map m = ModalRoute.of(context)!.settings.arguments as Map;
+    if(m != null && m["id"] != null) {
+      _id = m["id"];
+    _obterVaga();
+    }
+  
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: const Text("Editar vaga"),
+        title: const Text("Inserir nova vaga"),
         backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
       ),
       //drawer: const AppDrawer(),

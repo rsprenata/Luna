@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/vaga.dart';
 import 'package:luna/repositories/vaga_repository.dart';
+import 'package:luna/routes/routes.dart';
 
 class ListarVagasPage extends StatefulWidget {
   static const String routeName = '/vagas';
@@ -153,7 +154,8 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
         },
         onSelected: (String value) {
           if (value == 'edit') {
-            //_editItem(context, index);
+            //_editItem(context, index);.
+            Navigator.pushNamed(context, Routes.manterVaga, arguments: {"id" : v.id});
           } else {
             //_removeItem(context, index);
           }

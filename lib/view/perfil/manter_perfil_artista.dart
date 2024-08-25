@@ -33,7 +33,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
   final _enderecoController = TextEditingController();
 
   late Artista _artista;
-  int _id = 0;
+  int? _id;
 
   @override
   void dispose() {
@@ -74,6 +74,33 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
     } catch (exception) {
       showError(context, "Erro recuperando artista", exception.toString());
       Navigator.pop(context);
+    }
+  }
+
+  void _salvar() async {
+    _artista = Artista.novo(_nomeController.text, _emailController.text, _senhaController.text, _enderecoController.text,_telefoneController.text,
+    _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
+
+    try {
+      ArtistaRepository repository = ArtistaRepository();
+      await repository.inserir(_artista!);
+    _nomeController.clear();
+    _enderecoController.clear();
+    _bairroController.clear();
+    _cidadeController.clear();
+    _numeroController.clear();
+    _enderecoController.clear();
+    _pesoController.clear();
+    _enderecoController.clear();
+    _enderecoController.clear();
+    _emailController.clear();
+    _telefoneController.clear();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Artista inserido com sucesso.')));
+      Navigator.pop(context);
+    } catch (exception) {
+      showError(context, "Erro inserindo artista", exception.toString());
     }
   }
 
@@ -299,8 +326,13 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
               children: [
               ElevatedButton(
                 onPressed: () {
-                    _alterar();
-                  
+                  if(_formKey.currentState!.validate()) {
+                    if(_id != null) {
+                      _alterar();
+                    } else {
+                      _salvar();
+                    }
+                  }
                 },
                 child: const Text('Salvar')
               ),
