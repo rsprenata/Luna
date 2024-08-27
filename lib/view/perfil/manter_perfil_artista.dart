@@ -55,7 +55,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
   void _obterUsuario() async {
     try { 
       ArtistaRepository repository = ArtistaRepository();
-      _artista = await repository.buscar(_id);
+      _artista = await repository.buscar(_id!);
 
       _nomeController.text = _artista.nome;
       _enderecoController.text = _artista.endereco;

@@ -3,6 +3,7 @@ import 'package:luna/helper/error.dart';
 import 'package:luna/model/vaga.dart';
 import 'package:luna/repositories/vaga_repository.dart';
 import 'package:luna/routes/routes.dart';
+import 'package:luna/view/vaga/manter_vaga.dart';
 
 class ListarVagasPage extends StatefulWidget {
   static const String routeName = '/vagas';
@@ -152,10 +153,11 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
             const PopupMenuItem(value: 'delete', child: Text('Remover'))
           ];
         },
-        onSelected: (String value) {
+        onSelected: (String value) async {
           if (value == 'edit') {
             //_editItem(context, index);.
-            Navigator.pushNamed(context, Routes.manterVaga, arguments: {"id" : v.id});
+            final atualizar = await Navigator.pushNamed(context, Routes.manterVaga, arguments: {"id" : v.id});
+            if(atualizar != null && atualizar == true) _refreshList();
           } else {
             //_removeItem(context, index);
           }
@@ -176,6 +178,16 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
         itemCount: _lista.length,
         itemBuilder: _buildItem,
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            final atualizar = await Navigator.pushNamed(context, ManterVagaPage.routeName);
+            if(atualizar != null && atualizar == true) _refreshList();
+          },
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.green,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.plus_one),
+        ),
       /*floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, Routes.VagaInsert)
             .then((value) => _refreshList()),

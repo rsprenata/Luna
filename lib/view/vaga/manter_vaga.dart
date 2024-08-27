@@ -57,7 +57,8 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
   }
 
   void _salvar() async {
-    _vaga = Vaga.novo(_nomeController.text, _descricaoController.text, _valorController.text, _dataController.text,int.parse(_qtdVagasController.text));
+    _vaga = Vaga.novo(_nomeController.text, _descricaoController.text, 
+    _valorController.text, _dataController.text,int.parse(_qtdVagasController.text));
     
 
     try {
@@ -71,7 +72,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Vaga inserida com sucesso.')));
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     } catch (exception) {
       showError(context, "Erro inserindo vaga", exception.toString());
     }
@@ -90,7 +91,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Vaga editada com sucesso.')));
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     } catch (exception) {
       showError(context, "Erro editando vaga", exception.toString());
     }
@@ -208,7 +209,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Map m = ModalRoute.of(context)!.settings.arguments as Map;
+    final Map? m = ModalRoute.of(context)!.settings.arguments as Map?;
     if(m != null && m["id"] != null) {
       _id = m["id"];
     _obterVaga();
