@@ -106,9 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarVagasPage.routeName);
             }, child: Text("Listar Vagas")),
-            ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, ManterVagaPage.routeName);
-            }, child: Text("Nova Vaga")),
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.
