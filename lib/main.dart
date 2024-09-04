@@ -3,9 +3,12 @@ import 'package:luna/model/usuario.dart';
 import 'package:luna/routes/routes.dart';
 import 'package:luna/view/perfil/inserir_perfil_artista.dart';
 import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
+import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
+import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
+import 'package:luna/view/vaga/visualizar_vaga.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +32,9 @@ class MyApp extends StatelessWidget {
         Routes.verPerfil:(context) => const VerUsuarioArtistaPage(),
         Routes.listarVagas:(context) => const ListarVagasPage(),
         Routes.manterVaga:(context) => const ManterVagaPage(),
+        Routes.listarVagasDisponiveis:(context) => const ListarVagasDisponiveisPage(),
+        Routes.visualizarVaga:(context) => const VisualizarVagaPage(),
+        Routes.listarCandidaturasArtista:(context) => const ListarCandidaturasArtistaPage(),
         //FIXME Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage()
       },
     );
@@ -106,6 +112,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarVagasPage.routeName);
             }, child: Text("Listar Vagas")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, ListarVagasDisponiveisPage.routeName);
+            }, child: Text("Listar Vagas Disponíveis")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, ListarCandidaturasArtistaPage.routeName);
+            }, child: Text("Listar minhas candidaturas")),
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.

@@ -14,6 +14,7 @@ class Artista extends Usuario {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'peso': peso,
       'altura': altura,
       'experiencia': experiencia,

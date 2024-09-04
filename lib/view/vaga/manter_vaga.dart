@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/artista.dart';
+import 'package:luna/model/nivel.dart';
 import 'package:luna/model/usuario.dart';
 import 'package:luna/model/vaga.dart';
 import 'package:luna/repositories/artista_repository.dart';
@@ -58,7 +59,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
 
   void _salvar() async {
     _vaga = Vaga.novo(_nomeController.text, _descricaoController.text, 
-    _valorController.text, _dataController.text,int.parse(_qtdVagasController.text));
+    _valorController.text, _dataController.text,int.parse(_qtdVagasController.text), Nivel(1, "Ator"));
     
 
     try {

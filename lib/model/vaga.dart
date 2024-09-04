@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:luna/model/nivel.dart';
+
 
 class Vaga {
   int? id;
@@ -9,16 +11,19 @@ class Vaga {
   String valor;
   String data;
   int qtdVagas;
+  Nivel nivel;
 
-  Vaga(this.id, this.nome, this.descricao, this.valor, this.data, this.qtdVagas);
-  Vaga.novo(this.nome, this.descricao, this.valor, this.data, this.qtdVagas);
+  Vaga(this.id, this.nome, this.descricao, this.valor, this.data, this.qtdVagas, this.nivel);
+  Vaga.novo(this.nome, this.descricao, this.valor, this.data, this.qtdVagas, this.nivel);
   Map<String, dynamic> toMap() {
     return {
+      'id':id,
       'nome': nome,
       'descricao': descricao,
       'valor': valor,
       'data': data,
       'qtdVagas': qtdVagas,
+      'nivel': nivel.toMap(),
     };
   }
 
@@ -30,6 +35,7 @@ class Vaga {
       map['valor'],
       map['data'],
       map['qtdVagas'],
+      Nivel.fromMap(map['nivel']),
     );
   }
 
