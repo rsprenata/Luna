@@ -110,7 +110,7 @@ class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtist
 
       for(var c in _lista) {
         rows.add(TableRow(children: [
-      Text(c.vaga.descricao),
+      Text(c.vaga.nome),
       Text(c.vaga.nivel.descricao),
       Text(c.status.descricao)]));
       }

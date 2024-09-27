@@ -59,7 +59,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
 
   void _salvar() async {
     _vaga = Vaga.novo(_nomeController.text, _descricaoController.text, 
-    _valorController.text, _dataController.text,int.parse(_qtdVagasController.text), Nivel(1, "Ator"));
+    _valorController.text, _dataController.text,int.parse(_qtdVagasController.text), Nivel(1, "Ator"), _vaga.empresa);
     
 
     try {

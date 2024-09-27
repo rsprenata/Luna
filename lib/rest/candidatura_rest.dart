@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class CandidaturaRest{
   Future<List<Candidatura>> buscarCandidaturasArtista(int id) async {
     final http.Response response =
-        await http.get(Uri.http(API.endpoint, "candidatura/$id"));
+        await http.get(Uri.http(API.endpoint, "candidatura/artista/$id"));
     if (response.statusCode == 200) {
       print(response.body);
       return Candidatura.fromJsonList(response.body);
