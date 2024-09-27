@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }, child: Text("Novo Perfil")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, VerUsuarioArtistaPage.routeName,
-        arguments: <String, int>{"id": 10});
+        arguments: <String, int>{"id": 2});
             }, child: Text("Ver Perfil")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarVagasPage.routeName);
