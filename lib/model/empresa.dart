@@ -5,8 +5,8 @@ import 'package:luna/model/usuario.dart';
 class Empresa extends Usuario{
   String cnpj;
 
-  Empresa(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.cnpj) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
-  Empresa.novo(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.cnpj) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
+  Empresa(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel, this.cnpj) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel);
+  Empresa.novo(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel, this.cnpj) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel);
 
   Map<String, dynamic> toMap() {
     return {
@@ -25,6 +25,7 @@ class Empresa extends Usuario{
       map['bairroEndereco'],
       map['numeroEndereco'],
       map['cidadeEndereco'],
+      map['nivel'],
       map['cnpj'],
     );
   }

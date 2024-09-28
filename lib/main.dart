@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:luna/model/usuario.dart';
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/routes/routes.dart';
+import 'package:luna/view/login.dart';
 import 'package:luna/view/perfil/inserir_perfil_artista.dart';
 import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
@@ -9,9 +11,18 @@ import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
 import 'package:luna/view/vaga/visualizar_vaga.dart';
+import 'package:luna/widgets/drawer.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final authProvider = AuthProvider();
+  await authProvider.checkLoginStatus();
+  
+  runApp(ChangeNotifierProvider(
+      create: (context) => authProvider,
+      child: const MyApp(),
+    ));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -28,6 +40,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'LUNA'),
       routes: {
         Routes.home: (context) => const MyHomePage(title: 'LUNA'),
+        Routes.login:(context) => const LoginPage(),
         Routes.usuarioEdit:(context) => const EditarUsuarioArtistaPage(),
         Routes.verPerfil:(context) => const VerUsuarioArtistaPage(),
         Routes.listarVagas:(context) => const ListarVagasPage(),
@@ -67,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -75,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
@@ -83,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      endDrawer: authProvider.isLoggedIn ? const AppDrawer() : null,
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -104,20 +120,23 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, EditarUsuarioArtistaPage.routeName);
-            }, child: Text("Novo Perfil")),
+            }, child: const Text("Novo Perfil")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, VerUsuarioArtistaPage.routeName,
         arguments: <String, int>{"id": 2});
-            }, child: Text("Ver Perfil")),
+            }, child: const Text("Ver Perfil")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarVagasPage.routeName);
-            }, child: Text("Listar Vagas")),
+            }, child: const Text("Listar Vagas")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarVagasDisponiveisPage.routeName);
-            }, child: Text("Listar Vagas Disponíveis")),
+            }, child: const Text("Listar Vagas Disponíveis")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarCandidaturasArtistaPage.routeName);
-            }, child: Text("Listar minhas candidaturas")),
+            }, child: const Text("Listar minhas candidaturas")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, LoginPage.routeName);
+            }, child: const Text("Login")),
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.

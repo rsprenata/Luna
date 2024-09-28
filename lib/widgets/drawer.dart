@@ -1,28 +1,39 @@
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  Widget _createHeader() {
-    return const DrawerHeader(
-        margin: EdgeInsets.zero,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-            color: Colors.blue,
-            image: DecorationImage(
-                fit: BoxFit.fitHeight,
-                image: AssetImage('assets/images/shrek.png'))),
-        child: Stack(children: <Widget>[
-          Positioned(
-              bottom: 12.0,
-              left: 16.0,
-              child: Text("LUNA",
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 126, 23, 126),
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w500))),
-        ]));
+  Widget _createHeader(BuildContext context) {
+    final usuario = context.watch<AuthProvider>().usuario;
+
+    String nivel = usuario?.nivel == 1 ? 'Artista' : 'Empresa';
+
+    return DrawerHeader(
+              decoration: const BoxDecoration(
+                //color: Colors.blue,
+                color: Colors.deepPurple
+              ),
+              child: Row(
+                children: [Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "$nivel: ${usuario?.nome ?? ''}",
+                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Email: ${usuario?.email ?? ''}",
+                          style: const TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            );
   }
 
   Widget _createDrawerItem(
@@ -49,7 +60,7 @@ class AppDrawer extends StatelessWidget {
         child: ListView(
       padding: EdgeInsets.zero,
       children: <Widget>[
-        _createHeader(),
+        _createHeader(context),
         _createDrawerItem(
             icon: Icons.store,
             text: 'Home',
@@ -59,6 +70,16 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               }
               //Navigator.pushReplacementNamed(context, Routes.home);
+            }),
+        _createDrawerItem(
+            icon: Icons.logout,
+            text: 'Logout',
+            onTap: () {
+                context.read<AuthProvider>().logout();
+                Navigator.pushReplacementNamed(context, Routes.home);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Sucesso!'), behavior: SnackBarBehavior.floating),
+                );
             }),
         /*_createDrawerItem(
             icon: Icons.groups,
@@ -91,7 +112,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.pushNamed(context, Routes.pedidoList);
             }),*/
         ListTile(
-          title: const Text('0.0.1'),
+          title: const Text('v1.0'),
           onTap: () {},
         )
       ],

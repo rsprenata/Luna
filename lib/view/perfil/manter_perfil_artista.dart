@@ -67,7 +67,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
       _emailController.text = _artista.email;
       _telefoneController.text = _artista.telefone;
       _experienciaController.text = _artista.experiencia;
-      _senhaController.text = _artista.senha;
+      _senhaController.text = _artista.senha!;
       _alturaController.text = _artista.altura;
       _idadeController.text = _artista.idade != null ? _artista.idade.toString() : "";
 
@@ -79,7 +79,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
 
   void _salvar() async {
     _artista = Artista.novo(_nomeController.text, _emailController.text, _senhaController.text, _enderecoController.text,_telefoneController.text,
-    _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
+    _bairroController.text, _numeroController.text, _cidadeController.text, 1, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
 
     try {
       ArtistaRepository repository = ArtistaRepository();

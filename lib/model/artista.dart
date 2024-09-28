@@ -9,8 +9,8 @@ class Artista extends Usuario {
   String experiencia;
   int? idade;
 
-  Artista(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.peso, this.altura, this.experiencia, this.idade) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
-  Artista.novo(nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.peso, this.altura, this.experiencia, this.idade) : super.novo(nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
+  Artista(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel, this.peso, this.altura, this.experiencia, this.idade) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel);
+  Artista.novo(nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel, this.peso, this.altura, this.experiencia, this.idade) : super.novo(nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, nivel);
 
   Map<String, dynamic> toMap() {
     return {
@@ -26,6 +26,7 @@ class Artista extends Usuario {
       'bairroEndereco': bairroEndereco,
       'numeroEndereco': numeroEndereco,
       'cidadeEndereco': cidadeEndereco,
+      'nivel': nivel,
       'idade': idade
     };
   }
@@ -41,6 +42,7 @@ class Artista extends Usuario {
       map['bairroEndereco'],
       map['numeroEndereco'],
       map['cidadeEndereco'],
+      map['nivel'],
       map['peso'],
       map['altura'],
       map['experiencia'],

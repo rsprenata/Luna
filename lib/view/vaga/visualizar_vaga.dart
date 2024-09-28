@@ -32,7 +32,7 @@ class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
 
   int? _id;
   int _artistaId = 10;
-  Artista _artista = Artista(10, "nome", "email", "senha", "endereco", "telefone", "bairroEndereco", "numeroEndereco", "cidadeEndereco", "peso", "altura", "experiencia", 12);
+  Artista _artista = Artista(10, "nome", "email", "senha", "endereco", "telefone", "bairroEndereco", "numeroEndereco", "cidadeEndereco", 1, "peso", "altura", "experiencia", 12);
   late Vaga _vaga;
   late Candidatura _candidatura;
   @override

@@ -55,7 +55,7 @@ class _EditarUsuarioArtistaPageState extends State<EditarUsuarioArtistaPage> {
 
   void _salvar() async {
     Artista _artista = Artista.novo(_nomeController.text, _emailController.text, _senhaController.text, _enderecoController.text,_telefoneController.text,
-     _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
+     _bairroController.text, _numeroController.text, _cidadeController.text, 1, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
 
     try {
       ArtistaRepository repository = ArtistaRepository();

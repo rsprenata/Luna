@@ -1,4 +1,5 @@
 import 'package:luna/main.dart';
+import 'package:luna/view/login.dart';
 import 'package:luna/view/perfil/inserir_perfil_artista.dart';
 import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
@@ -10,6 +11,8 @@ import 'package:luna/view/vaga/visualizar_vaga.dart';
 
 class Routes {
 static const String home = MyHomePage.routeName;
+
+static const String login = LoginPage.routeName;
 /*static const String clienteList = ListarClientesPage.routeName;
 static const String clienteInsert = InserirClientePage.routeName;*/
 static const String usuarioEdit = EditarUsuarioArtistaPage.routeName;
