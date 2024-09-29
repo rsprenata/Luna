@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class EditarUsuarioArtistaPage extends StatefulWidget {
-  static const String routeName = '/perfil/editar';
+  static const String routeName = '/perfilArtista/editar';
 
   const EditarUsuarioArtistaPage({super.key});
   @override
@@ -33,7 +33,6 @@ class _EditarUsuarioArtistaPageState extends State<EditarUsuarioArtistaPage> {
   final _enderecoController = TextEditingController();
 
   int _id = 0;
-  bool isArtista = false;
   Usuario? _usuario;
   @override
   void dispose() {
@@ -54,8 +53,20 @@ class _EditarUsuarioArtistaPageState extends State<EditarUsuarioArtistaPage> {
   }
 
   void _salvar() async {
-    Artista _artista = Artista.novo(_nomeController.text, _emailController.text, _senhaController.text, _enderecoController.text,_telefoneController.text,
-     _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
+    Artista _artista = Artista.novo(
+      nome: _nomeController.text, 
+      email: _emailController.text, 
+      senha: _senhaController.text, 
+      endereco: _enderecoController.text,
+      telefone: _telefoneController.text,
+      bairroEndereco: _bairroController.text, 
+      numeroEndereco: _numeroController.text, 
+      cidadeEndereco: _cidadeController.text, 
+      peso: _pesoController.text, 
+      altura: _alturaController.text, 
+      experiencia: _experienciaController.text,
+      nivel: 1,
+      idade: int.parse(_idadeController.text));
 
     try {
       ArtistaRepository repository = ArtistaRepository();

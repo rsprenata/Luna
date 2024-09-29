@@ -9,8 +9,59 @@ class Artista extends Usuario {
   String experiencia;
   int? idade;
 
-  Artista(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.peso, this.altura, this.experiencia, this.idade) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
-  Artista.novo(nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.peso, this.altura, this.experiencia, this.idade) : super.novo(nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
+  Artista({
+    required int id,
+    required String nome,
+    required String email,
+    required String senha,
+    required String endereco,
+    required String telefone,
+    required String bairroEndereco,
+    required String numeroEndereco,
+    required String cidadeEndereco,
+    required int nivel,
+    required this.peso,
+    required this.altura,
+    required this.experiencia,
+    required this.idade
+  }) : super(
+          id,
+          nome,
+          email,
+          senha,
+          endereco,
+          telefone,
+          bairroEndereco,
+          numeroEndereco,
+          cidadeEndereco,
+          nivel,
+        );
+  Artista.novo({
+    required String nome,
+    required String email,
+    required String senha,
+    required String endereco,
+    required String telefone,
+    required String bairroEndereco,
+    required String numeroEndereco,
+    required String cidadeEndereco,
+    required int nivel,
+    required this.peso,
+    required this.altura,
+    required this.experiencia,
+    required this.idade
+  }) : super.novo(
+          nome,
+          email,
+          senha,
+          endereco,
+          telefone,
+          bairroEndereco,
+          numeroEndereco,
+          cidadeEndereco,
+          nivel,
+        );
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,19 +83,20 @@ class Artista extends Usuario {
 
   static Artista fromMap(Map<String, dynamic> map) {
     return Artista(
-      map['id'],
-      map['email'],
-      map['nome'],
-      map['senha'],
-      map['endereco'],
-      map['telefone'],
-      map['bairroEndereco'],
-      map['numeroEndereco'],
-      map['cidadeEndereco'],
-      map['peso'],
-      map['altura'],
-      map['experiencia'],
-      map['idade']
+      id: map['id'],
+      email: map['email'],
+      nome: map['nome'],
+      senha: map['senha'],
+      endereco: map['endereco'],
+      telefone: map['telefone'],
+      bairroEndereco: map['bairroEndereco'],
+      numeroEndereco: map['numeroEndereco'],
+      cidadeEndereco: map['cidadeEndereco'],
+      peso: map['peso'],
+      altura: map['altura'],
+      experiencia: map['experiencia'],
+      idade: map['idade'],
+      nivel: map['nivel']
     );
   }
 

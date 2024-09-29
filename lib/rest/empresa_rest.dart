@@ -28,6 +28,21 @@ class EmpresaRest{
       throw Exception('Erro alterando empresa ${empresa.id}.');
     }
   }
+
+  Future<Empresa> inserir(Empresa empresa) async {
+    print(empresa.toJson());
+    final http.Response response =
+        await http.post(Uri.http(API.endpoint, 'artista/'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: empresa.toJson());
+    if (response.statusCode == 200) {
+      return Empresa.fromJson(response.body);
+    } else {
+      throw Exception('Erro inserindo empresa.');
+    }
+  }
 /*
   Future<Cliente?> buscarPorCpf(String cpf) async {
     final http.Response response =

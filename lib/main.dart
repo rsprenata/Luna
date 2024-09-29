@@ -104,10 +104,13 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, EditarUsuarioArtistaPage.routeName);
-            }, child: Text("Novo Perfil")),
+            }, child: Text("Novo Perfil Artista")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, EditarUsuarioEmpresaPage.routeName);
+            }, child: Text("Novo Perfil Empresa")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, VerUsuarioArtistaPage.routeName,
-        arguments: <String, int>{"id": 2});
+        arguments: <String, int>{"id": 3});
             }, child: Text("Ver Perfil")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarVagasPage.routeName);

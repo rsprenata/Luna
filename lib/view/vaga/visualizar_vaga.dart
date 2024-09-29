@@ -31,8 +31,22 @@ class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
   final _qtdVagasController = TextEditingController();
 
   int? _id;
-  int _artistaId = 10;
-  Artista _artista = Artista(10, "nome", "email", "senha", "endereco", "telefone", "bairroEndereco", "numeroEndereco", "cidadeEndereco", "peso", "altura", "experiencia", 12);
+  final Artista _artista = Artista(//aqui esta setando na mao o candidato!!! arrumar pra pegar o artista logado
+    id: 3,
+    nome: "nome",
+    email: "email",
+    senha: "senha",
+    endereco: "endereco",
+    telefone: "telefone",
+    bairroEndereco: "bairroEndereco",
+    numeroEndereco: "numeroEndereco",
+    cidadeEndereco: "cidadeEndereco",
+    nivel: 2,
+    peso: "peso",
+    altura: "altura",
+    experiencia: "experiencia",
+    idade: 22);
+
   late Vaga _vaga;
   late Candidatura _candidatura;
   @override

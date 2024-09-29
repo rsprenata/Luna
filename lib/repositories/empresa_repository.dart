@@ -9,6 +9,10 @@ class EmpresaRepository {
   Future<Empresa> alterar(Empresa empresa) async {
     return await api.alterar(empresa);
   }
+
+  Future<Empresa> inserir(Empresa empresa) async {
+    return await api.inserir(empresa);
+  }
 /*
   Future<Usuario?> buscarPorCpf(String cpf) async {
     return await api.buscarPorCpf(cpf);

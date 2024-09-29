@@ -4,28 +4,79 @@ import 'package:luna/model/usuario.dart';
 
 class Empresa extends Usuario{
   String cnpj;
+  String? descricao;
 
-  Empresa(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.cnpj) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
-  Empresa.novo(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco, this.cnpj) : super(id, nome, email, senha, endereco, telefone, bairroEndereco, numeroEndereco, cidadeEndereco);
+  Empresa({
+    required int id,
+    required String nome,
+    required String email,
+    required String senha,
+    required String endereco,
+    required String telefone,
+    required String bairroEndereco,
+    required String numeroEndereco,
+    required String cidadeEndereco,
+    required int nivel,
+    required this.cnpj,
+    this.descricao,
+  }) : super(
+          id,
+          nome,
+          email,
+          senha,
+          endereco,
+          telefone,
+          bairroEndereco,
+          numeroEndereco,
+          cidadeEndereco,
+          nivel,
+        );
+
+  Empresa.novo({
+    required String nome,
+    required String email,
+    required String senha,
+    required String endereco,
+    required String telefone,
+    required String bairroEndereco,
+    required String numeroEndereco,
+    required String cidadeEndereco,
+    required int nivel,
+    required this.cnpj,
+    this.descricao,
+  }) : super.novo(
+          nome,
+          email,
+          senha,
+          endereco,
+          telefone,
+          bairroEndereco,
+          numeroEndereco,
+          cidadeEndereco,
+          nivel,
+        );
 
   Map<String, dynamic> toMap() {
     return {
       'cnpj': cnpj,
+      'descricao': descricao
     };
   }
 
   static Empresa fromMap(Map<String, dynamic> map) {
     return Empresa(
-      map['id'],
-      map['email'],
-      map['nome'],
-      map['senha'],
-      map['endereco'],
-      map['telefone'],
-      map['bairroEndereco'],
-      map['numeroEndereco'],
-      map['cidadeEndereco'],
-      map['cnpj'],
+      id: map['id'],
+      email: map['email'],
+      nome: map['nome'],
+      senha: map['senha'],
+      endereco: map['endereco'],
+      telefone: map['telefone'],
+      bairroEndereco: map['bairroEndereco'],
+      numeroEndereco: map['numeroEndereco'],
+      cidadeEndereco: map['cidadeEndereco'],
+      cnpj: map['cnpj'],
+      descricao: map['descricao'],
+      nivel: map['nivel']
     );
   }
 

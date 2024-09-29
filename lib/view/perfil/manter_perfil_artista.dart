@@ -56,6 +56,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
     try { 
       ArtistaRepository repository = ArtistaRepository();
       _artista = await repository.buscar(_id!);
+      print(_artista);
 
       _nomeController.text = _artista.nome;
       _enderecoController.text = _artista.endereco;
@@ -78,9 +79,20 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
   }
 
   void _salvar() async {
-    _artista = Artista.novo(_nomeController.text, _emailController.text, _senhaController.text, _enderecoController.text,_telefoneController.text,
-    _bairroController.text, _numeroController.text, _cidadeController.text, _pesoController.text, _alturaController.text, _experienciaController.text, int.parse(_idadeController.text));
-
+    _artista = Artista.novo(
+      nome: _nomeController.text, 
+      email: _emailController.text, 
+      senha: _senhaController.text, 
+      endereco: _enderecoController.text,
+      telefone: _telefoneController.text,
+      bairroEndereco: _bairroController.text, 
+      numeroEndereco: _numeroController.text, 
+      cidadeEndereco: _cidadeController.text, 
+      peso: _pesoController.text, 
+      altura: _alturaController.text, 
+      experiencia: _experienciaController.text,
+      nivel: 1,
+      idade: int.parse(_idadeController.text));
     try {
       ArtistaRepository repository = ArtistaRepository();
       await repository.inserir(_artista!);

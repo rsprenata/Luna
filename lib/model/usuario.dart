@@ -10,9 +10,27 @@ class Usuario {
   String cidadeEndereco;
   String telefone;
   String nome;
+  int? nivel;
 
-  Usuario(this.id, this.nome, this.email, this.senha, this.endereco, this.telefone, this.bairroEndereco, this.numeroEndereco, this.cidadeEndereco);
-  Usuario.novo(this.nome, this.email, this.senha, this.endereco, this.telefone, this.bairroEndereco, this.numeroEndereco, this.cidadeEndereco);
+  Usuario(this.id,
+  this.nome,
+  this.email,
+  this.senha,
+  this.endereco,
+  this.telefone,
+  this.bairroEndereco,
+  this.numeroEndereco,
+  this.cidadeEndereco,
+  this.nivel);
+  Usuario.novo(this.nome,
+  this.email,
+  this.senha,
+  this.endereco,
+  this.telefone,
+  this.bairroEndereco,
+  this.numeroEndereco,
+  this.cidadeEndereco,
+  this.nivel);
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,7 +42,8 @@ class Usuario {
       'telefone': telefone,
       'bairroEndereco': bairroEndereco,
       'numeroEndereco': numeroEndereco,
-      'cidadeEndereco': cidadeEndereco
+      'cidadeEndereco': cidadeEndereco,
+      'nivel': nivel
     };
   }
 
@@ -39,6 +58,7 @@ class Usuario {
       map['bairroEndereco'],
       map['numeroEndereco'],
       map['cidadeEndereco'],
+      map['nivel']
     );
   }
 

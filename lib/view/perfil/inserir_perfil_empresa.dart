@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class EditarUsuarioEmpresaPage extends StatefulWidget {
-  static const String routeName = '/perfil/editar';
+  static const String routeName = '/perfilEmpresa/editar';
 
   const EditarUsuarioEmpresaPage({super.key});
   @override
@@ -28,10 +28,10 @@ class _EditarUsuarioEmpresaPageState extends State<EditarUsuarioEmpresaPage> {
   final _telefoneController = TextEditingController();
   final _enderecoController = TextEditingController();
   final _cnpjController = TextEditingController();
+  final _descricaoController = TextEditingController();
 
   int _id = 0;
   Usuario? _usuario;
-  Empresa? _empresa;
   @override
   void dispose() {
     _nomeController.dispose();
@@ -51,24 +51,40 @@ class _EditarUsuarioEmpresaPageState extends State<EditarUsuarioEmpresaPage> {
   }
 
   void _salvar() async {
-    _empresa!.nome = _nomeController.text;
-    _empresa!.endereco = _enderecoController.text;
-    _empresa!.bairroEndereco = _bairroController.text;
-    _empresa!.cidadeEndereco = _cidadeController.text;
-    _empresa!.numeroEndereco = _numeroController.text;
-    _empresa!.cnpj = _cnpjController.text;
-    _empresa!.senha = _enderecoController.text;
-    _empresa!.email = _emailController.text;
-    _empresa!.telefone = _telefoneController.text;
+    Empresa _empresa = Empresa.novo(
+      nome: _nomeController.text,
+      email: _emailController.text,
+      senha: _senhaController.text,
+      endereco: _enderecoController.text,
+      telefone: _telefoneController.text,
+      bairroEndereco: _bairroController.text,
+      numeroEndereco: _numeroController.text,
+      cidadeEndereco: _cidadeController.text,
+      nivel: 2,
+      cnpj: _cnpjController.text,
+      descricao: _descricaoController.text);
 
     try {
       EmpresaRepository repository = EmpresaRepository();
-      await repository.alterar(_empresa!);
+      await repository.inserir(_empresa);
+      _nomeController.clear();
+      _enderecoController.clear();
+      _bairroController.clear();
+      _cidadeController.clear();
+      _numeroController.clear();
+      _enderecoController.clear();
+      _descricaoController.clear();
+      _cnpjController.clear();
+      _enderecoController.clear();
+      _descricaoController.clear();
+      _emailController.clear();
+      _telefoneController.clear();
+
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Empresa editada com sucesso.')));
+          const SnackBar(content: Text('Empresa inserida com sucesso.')));
       Navigator.pop(context);
     } catch (exception) {
-      showError(context, "Erro editando empresa", exception.toString());
+      showError(context, "Erro inserindo empresa", exception.toString());
     }
   }
   Widget _buildForm(BuildContext context) {
@@ -88,6 +104,21 @@ class _EditarUsuarioEmpresaPageState extends State<EditarUsuarioEmpresaPage> {
                     hintText: '  Nome da empresa',
                   ),
                   controller: _nomeController,
+                ),),
+              ),
+            ],
+          ),Row(
+            children: [
+              Expanded(
+                child: ListTile(
+            title: Text('Descrição da empresa'),
+            subtitle: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4))),
+                    hintText: '  Descrição da empresa',
+                  ),
+                  controller: _descricaoController,
                 ),),
               ),
             ],
