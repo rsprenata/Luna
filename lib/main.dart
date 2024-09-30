@@ -3,10 +3,12 @@ import 'package:luna/model/usuario.dart';
 import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/routes/route_manager.dart';
 import 'package:luna/routes/routes.dart';
+import 'package:luna/view/escolha_perfil.dart';
 import 'package:luna/view/login.dart';
 import 'package:luna/view/perfil/EXCLUIRinserir_perfil_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_empresa.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
+import 'package:luna/view/perfil/listar_candidaturas_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/usuario/home.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
@@ -41,11 +43,30 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+<<<<<<< HEAD
       onGenerateRoute: RouteManager.generateRoute,
       initialRoute: authProvider.isLoggedIn ? Routes.home : Routes.login,
       home: authProvider.isLoggedIn 
           ? const HomePage()
           : const LoginPage(),
+=======
+      home: const MyHomePage(title: 'LUNA'),
+      routes: {
+        Routes.home: (context) => const MyHomePage(title: 'LUNA'),
+        Routes.login:(context) => const LoginPage(),
+        Routes.usuarioEdit:(context) => const EditarUsuarioArtistaPage(),
+        Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage(),
+        Routes.verPerfil:(context) => const VerUsuarioArtistaPage(),
+        Routes.listarVagas:(context) => const ListarVagasPage(),
+        Routes.manterVaga:(context) => const ManterVagaPage(),
+        Routes.listarVagasDisponiveis:(context) => const ListarVagasDisponiveisPage(),
+        Routes.visualizarVaga:(context) => const VisualizarVagaPage(),
+        Routes.listarCandidaturasArtista:(context) => const ListarCandidaturasArtistaPage(),
+        Routes.escolhaPerfil:(context) => EscolhaPerfilScreen(),
+        Routes.listarCandidaturasEmpresa: (context) => const ListarCandidaturasEmpresaPage(),
+        //FIXME Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage()
+      },
+>>>>>>> main
     );
   }
 }
@@ -115,6 +136,32 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(onPressed: (){
+<<<<<<< HEAD
+=======
+              Navigator.pushNamed(context, EditarUsuarioArtistaPage.routeName);
+            }, child: Text("Novo Perfil Artista")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, EditarUsuarioEmpresaPage.routeName);
+            }, child: Text("Novo Perfil Empresa")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, VerUsuarioArtistaPage.routeName,
+        arguments: <String, int>{"id": 3});
+            }, child: Text("Ver Perfil")),
+
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, ListarVagasPage.routeName);
+            }, child: const Text("Listar Vagas")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, ListarVagasDisponiveisPage.routeName);
+            }, child: const Text("Listar Vagas Disponíveis")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, ListarCandidaturasArtistaPage.routeName);
+            }, child: const Text("Listar minhas candidaturas")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, ListarCandidaturasEmpresaPage.routeName);
+            }, child: const Text("Listar candidaturas empresa")),
+            ElevatedButton(onPressed: (){
+>>>>>>> main
               Navigator.pushNamed(context, LoginPage.routeName);
             }, child: const Text("Login")),
           ],

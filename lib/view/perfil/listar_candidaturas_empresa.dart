@@ -7,17 +7,17 @@ import 'package:luna/repositories/vaga_repository.dart';
 import 'package:luna/routes/routes.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
 
-class ListarCandidaturasArtistaPage extends StatefulWidget {
-  static const String routeName = '/candidatura/candidaturasArtista';
+class ListarCandidaturasEmpresaPage extends StatefulWidget {
+  static const String routeName = '/candidatura/candidaturasEmpresa';
 
-  const ListarCandidaturasArtistaPage({super.key});
+  const ListarCandidaturasEmpresaPage({super.key});
   @override
-  State<StatefulWidget> createState() => _ListarCandidaturasArtistaPageState();
+  State<StatefulWidget> createState() => _ListarCandidaturasEmpresaPageState();
 }
 
-class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtistaPage> {
+class _ListarCandidaturasEmpresaPageState extends State<ListarCandidaturasEmpresaPage> {
   List<Candidatura> _lista = <Candidatura>[];
-  int _artistaId = 3;
+  int _empresaId = 18;
   
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtist
     List<Candidatura> tempLista = <Candidatura>[];
     try {
       CandidaturaRepository repository = CandidaturaRepository();
-      tempLista = await repository.buscarCandidaturasArtista(_artistaId);
+      tempLista = await repository.buscarCandidaturasEmpresa(_empresaId);
     } catch (exception) {
       showError(
           context, "Erro obtendo lista de Vagas", exception.toString());

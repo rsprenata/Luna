@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 20),
                   TextButton(
                     onPressed: () {
-                      // Ação ao clicar no botão
+                      Navigator.pushNamed(context, Routes.escolhaPerfil);
                     },
                     child: const Text(
                       'Criar Conta',

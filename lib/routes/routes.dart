@@ -1,8 +1,10 @@
 import 'package:luna/main.dart';
+import 'package:luna/view/escolha_perfil.dart';
 import 'package:luna/view/login.dart';
 import 'package:luna/view/perfil/EXCLUIRinserir_perfil_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_empresa.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
+import 'package:luna/view/perfil/listar_candidaturas_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/usuario/home.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
@@ -27,6 +29,8 @@ static const String visualizarVaga = VisualizarVagaPage.routeName;
 static const String listarVagas = ListarVagasPage.routeName;
 static const String listarVagasDisponiveis = ListarVagasDisponiveisPage.routeName;
 static const String listarCandidaturasArtista = ListarCandidaturasArtistaPage.routeName;
+static const String escolhaPerfil = EscolhaPerfilScreen.routeName;
+static const String listarCandidaturasEmpresa = ListarCandidaturasEmpresaPage.routeName;
 
 /*static const String pedidoList = ListarPedidosPage.routeName;
 static const String pedidoInsert = InserirPedidoPage.routeName;

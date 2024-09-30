@@ -30,9 +30,11 @@ class EmpresaRest{
   }
 
   Future<Empresa> inserir(Empresa empresa) async {
+    print("---------");
     print(empresa.toJson());
+    print("---------");
     final http.Response response =
-        await http.post(Uri.http(API.endpoint, 'artista/'),
+        await http.post(Uri.http(API.endpoint, 'empresa/'),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },

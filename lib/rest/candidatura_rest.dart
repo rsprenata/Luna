@@ -15,6 +15,17 @@ class CandidaturaRest{
       throw Exception('Erro buscando todos as candidaturas do artista.');
     }
   }
+
+  Future<List<Candidatura>> buscarCandidaturasEmpresa(int id) async {
+    final http.Response response =
+        await http.get(Uri.http(API.endpoint, "candidatura/empresa/$id"));
+    if (response.statusCode == 200) {
+      print(response.body);
+      return Candidatura.fromJsonList(response.body);
+    } else {
+      throw Exception('Erro buscando todos as candidaturas do artista.');
+    }
+  }
   /*
   Future<Vaga> buscar(int id) async {
     final http.Response response =

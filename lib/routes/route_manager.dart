@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:luna/main.dart';
 import 'package:luna/provider/auth_provider.dart';
+import 'package:luna/view/escolha_perfil.dart';
 import 'package:luna/view/login.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
+import 'package:luna/view/perfil/listar_candidaturas_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_empresa.dart';
 import 'package:luna/view/usuario/home.dart';
@@ -12,6 +14,7 @@ import 'package:luna/view/vaga/manter_vaga.dart';
 import 'package:luna/view/vaga/visualizar_vaga.dart';
 import 'package:provider/provider.dart';
 import 'package:luna/routes/routes.dart';
+
 
 class RouteManager {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -25,6 +28,8 @@ class RouteManager {
           return const HomePage();
         case Routes.login:
           return const LoginPage();
+        case Routes.escolhaPerfil:
+          return EscolhaPerfilScreen();
         case Routes.manterPerfilArtista:
           if (settings.arguments != null) {
             if (usuario == null) {
@@ -71,6 +76,11 @@ class RouteManager {
             return const LoginPage();
           }
           return const ListarCandidaturasArtistaPage();
+        case Routes.listarCandidaturasEmpresa:
+          if (usuario == null) {
+            return const LoginPage();
+          }
+          return const ListarCandidaturasEmpresaPage();
         default:
           return const LoginPage();
       }

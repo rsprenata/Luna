@@ -32,7 +32,9 @@ class ArtistaRest{
   }
 
   Future<Artista> inserir(Artista artista) async {
+    print("---------");
     print(artista.toJson());
+    print("---------");
     final http.Response response =
         await http.post(Uri.http(API.endpoint, 'artista/'),
             headers: <String, String>{

@@ -3,10 +3,13 @@ import 'dart:ffi';
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/empresa.dart';
 import 'package:luna/model/usuario.dart';
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/empresa_repository.dart';
 import 'package:luna/repositories/usuario_repository.dart';
+import 'package:luna/routes/routes.dart';
 import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterPerfilEmpresaPage extends StatefulWidget {
@@ -68,7 +71,16 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
 
     try {
       EmpresaRepository repository = EmpresaRepository();
-      await repository.inserir(_empresa);
+      Empresa e = await repository.inserir(_empresa);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      authProvider.login(e);
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Logado com sucesso.')));
+
+      Navigator.pushReplacementNamed(context, Routes.home);
+
+
       _nomeController.clear();
       _enderecoController.clear();
       _bairroController.clear();
@@ -82,9 +94,6 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
       _emailController.clear();
       _telefoneController.clear();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Empresa inserida com sucesso.')));
-      Navigator.pop(context);
     } catch (exception) {
       showError(context, "Erro inserindo empresa", exception.toString());
     }
@@ -251,7 +260,7 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                 ),),
               ),
             ]),
-            /*
+            
             Row(mainAxisAlignment: MainAxisAlignment.center, 
               children: [
               ElevatedButton(
@@ -268,7 +277,7 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                 },
                 child: const Text('Cancelar'),
               ),
-            ])*/
+            ])
           ])) // Form
     ]);
   }
@@ -289,7 +298,7 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: const Text("Editar Usuario"),
+        title: const Text("Cadastrar Empresa"),
         backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
       ),
       //drawer: const AppDrawer(),

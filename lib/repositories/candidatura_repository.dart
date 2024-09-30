@@ -7,6 +7,10 @@ class CandidaturaRepository {
   Future<List<Candidatura>> buscarCandidaturasArtista(int _artistaId) async {
     return await api.buscarCandidaturasArtista(_artistaId);
   }
+
+  Future<List<Candidatura>> buscarCandidaturasEmpresa(int empresaId) async {
+    return await api.buscarCandidaturasEmpresa(empresaId);
+  }
   /*
   Future<Vaga> buscar(int id) async {
     return await api.buscar(id);
