@@ -9,15 +9,17 @@ import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class EditarUsuarioEmpresaPage extends StatefulWidget {
+class ManterPerfilEmpresaPage extends StatefulWidget {
+  final int? id; 
+
   static const String routeName = '/perfilEmpresa/editar';
 
-  const EditarUsuarioEmpresaPage({super.key});
+  const ManterPerfilEmpresaPage({super.key, this.id});
   @override
-  _EditarUsuarioEmpresaPageState createState() => _EditarUsuarioEmpresaPageState();
+  State<ManterPerfilEmpresaPage> createState() => _ManterPerfilEmpresaPageState();
 }
 
-class _EditarUsuarioEmpresaPageState extends State<EditarUsuarioEmpresaPage> {
+class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _bairroController = TextEditingController();
@@ -30,7 +32,7 @@ class _EditarUsuarioEmpresaPageState extends State<EditarUsuarioEmpresaPage> {
   final _cnpjController = TextEditingController();
   final _descricaoController = TextEditingController();
 
-  int _id = 0;
+  int? _id = 0;
   Usuario? _usuario;
   @override
   void dispose() {
@@ -42,7 +44,7 @@ class _EditarUsuarioEmpresaPageState extends State<EditarUsuarioEmpresaPage> {
     try {
       //var maskFormatter = MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
       UsuarioRepository repository = UsuarioRepository();
-      _usuario = await repository.buscar(_id);
+      _usuario = await repository.buscar(_id!);
       _nomeController.text = _usuario!.nome;
     } catch (exception) {
       showError(context, "Erro recuperando usuario", exception.toString());
@@ -271,11 +273,19 @@ class _EditarUsuarioEmpresaPageState extends State<EditarUsuarioEmpresaPage> {
     ]);
   }
 
+
+
+@override
+  void initState() {
+    super.initState();
+    _id = widget.id; 
+    if (_id != null) {
+      _obterUsuario();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Map m = ModalRoute.of(context)!.settings.arguments as Map;
-    _id = m["id"];
-    _obterUsuario();
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(

@@ -1,23 +1,26 @@
 import 'package:luna/main.dart';
 import 'package:luna/view/login.dart';
-import 'package:luna/view/perfil/inserir_perfil_artista.dart';
-import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
+import 'package:luna/view/perfil/EXCLUIRinserir_perfil_artista.dart';
+import 'package:luna/view/perfil/manter_perfil_empresa.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
+import 'package:luna/view/usuario/home.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
 import 'package:luna/view/vaga/visualizar_vaga.dart';
 
 class Routes {
-static const String home = MyHomePage.routeName;
+static const String initial = MyHomePage.routeName;
+
+static const String home = HomePage.routeName;
 
 static const String login = LoginPage.routeName;
 /*static const String clienteList = ListarClientesPage.routeName;
 static const String clienteInsert = InserirClientePage.routeName;*/
-static const String usuarioEdit = EditarUsuarioArtistaPage.routeName;
-static const String usuarioEmpresaEdit = EditarUsuarioEmpresaPage.routeName;
-static const String verPerfil = VerUsuarioArtistaPage.routeName;
+static const String manterPerfilArtista = ManterPerfilArtistaPage.routeName;
+static const String manterPerfilEmpresa = ManterPerfilEmpresaPage.routeName;
+//static const String verPerfil = VerUsuarioArtistaPage.routeName;
 static const String manterVaga = ManterVagaPage.routeName;
 static const String visualizarVaga = VisualizarVagaPage.routeName;
 

@@ -13,7 +13,7 @@ class AuthProvider with ChangeNotifier {
     //await prefs.remove('usuario');
     String? usuarioJson = await prefs.getString('usuario');
 
-    print(usuarioJson);
+    //print(usuarioJson);
     if (usuarioJson != null) {
       _usuario = Usuario.fromJson(usuarioJson);
     } else {

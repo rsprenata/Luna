@@ -9,15 +9,18 @@ import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class VerUsuarioArtistaPage extends StatefulWidget {
+class ManterPerfilArtistaPage extends StatefulWidget {
+  final int? id;
+
   static const String routeName = '/perfil/ver';
 
-  const VerUsuarioArtistaPage({super.key});
+  const ManterPerfilArtistaPage({super.key, this.id});
   @override
-  _VerUsuarioArtistaPageState createState() => _VerUsuarioArtistaPageState();
+  State<ManterPerfilArtistaPage> createState() =>
+      _ManterPerfilArtistaPageState();
 }
 
-class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
+class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _bairroController = TextEditingController();
@@ -53,7 +56,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
   }
 
   void _obterUsuario() async {
-    try { 
+    try {
       ArtistaRepository repository = ArtistaRepository();
       _artista = await repository.buscar(_id!);
 
@@ -69,8 +72,8 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
       _experienciaController.text = _artista.experiencia;
       _senhaController.text = _artista.senha!;
       _alturaController.text = _artista.altura;
-      _idadeController.text = _artista.idade != null ? _artista.idade.toString() : "";
-
+      _idadeController.text =
+          _artista.idade != null ? _artista.idade.toString() : "";
     } catch (exception) {
       showError(context, "Erro recuperando artista", exception.toString());
       Navigator.pop(context);
@@ -79,34 +82,34 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
 
   void _salvar() async {
     _artista = Artista.novo(
-      nome: _nomeController.text, 
-      email: _emailController.text, 
-      senha: _senhaController.text, 
-      endereco: _enderecoController.text,
-      telefone: _telefoneController.text,
-      bairroEndereco: _bairroController.text, 
-      numeroEndereco: _numeroController.text, 
-      cidadeEndereco: _cidadeController.text, 
-      peso: _pesoController.text, 
-      altura: _alturaController.text, 
-      experiencia: _experienciaController.text,
-      nivel: 1,
-      idade: int.parse(_idadeController.text));
+        nome: _nomeController.text,
+        email: _emailController.text,
+        senha: _senhaController.text,
+        endereco: _enderecoController.text,
+        telefone: _telefoneController.text,
+        bairroEndereco: _bairroController.text,
+        numeroEndereco: _numeroController.text,
+        cidadeEndereco: _cidadeController.text,
+        peso: _pesoController.text,
+        altura: _alturaController.text,
+        experiencia: _experienciaController.text,
+        nivel: 1,
+        idade: int.parse(_idadeController.text));
 
     try {
       ArtistaRepository repository = ArtistaRepository();
       await repository.inserir(_artista!);
-    _nomeController.clear();
-    _enderecoController.clear();
-    _bairroController.clear();
-    _cidadeController.clear();
-    _numeroController.clear();
-    _enderecoController.clear();
-    _pesoController.clear();
-    _enderecoController.clear();
-    _enderecoController.clear();
-    _emailController.clear();
-    _telefoneController.clear();
+      _nomeController.clear();
+      _enderecoController.clear();
+      _bairroController.clear();
+      _cidadeController.clear();
+      _numeroController.clear();
+      _enderecoController.clear();
+      _pesoController.clear();
+      _enderecoController.clear();
+      _enderecoController.clear();
+      _emailController.clear();
+      _telefoneController.clear();
 
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Artista inserido com sucesso.')));
@@ -148,206 +151,214 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
           key: _formKey,
           child: ListView(shrinkWrap: true, children: [
             Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Nome completo'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Nome completo',
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Nome completo'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Nome completo',
+                      ),
+                      controller: _nomeController,
+                    ),
                   ),
-                  controller: _nomeController,
-                ),),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
             Row(
-            children: [
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Idade'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Idade',
+                      ),
+                      controller: _idadeController,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text('Peso'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Peso',
+                      ),
+                      controller: _pesoController,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text('Altura'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Altura',
+                      ),
+                      controller: _alturaController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Email'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Email',
+                      ),
+                      controller: _emailController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Endereço'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Endereço',
+                      ),
+                      controller: _enderecoController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Número'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Número',
+                      ),
+                      controller: _numeroController,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text('Bairro'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Bairro',
+                      ),
+                      controller: _bairroController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Cidade'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Cidade',
+                      ),
+                      controller: _cidadeController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Telefone'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Telefone',
+                      ),
+                      controller: _telefoneController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Expanded(
                 child: ListTile(
-            title: Text('Idade'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Idade',
-                  ),
-                  controller: _idadeController,
-                ),),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child:ListTile(
-            title: Text('Peso'),
-            subtitle:  TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Peso',
-                  ),
-                  controller: _pesoController,
-                ),),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child:ListTile(
-              title: Text('Altura'),
-              subtitle:  TextFormField(
+                  title: Text('Experiência'),
+                  subtitle: TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4))),
-                      hintText: '  Altura',
+                      hintText: '  Experiência',
                     ),
-                    controller: _alturaController,
-                  ),),
+                    controller: _experienciaController,
+                  ),
                 ),
-            ],
-          ),
-            Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Email'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Email',
-                  ),
-                  controller: _emailController,
-                ),),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Endereço'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Endereço',
-                  ),
-                  controller: _enderecoController,
-                ),),
-              ),
-            ],
-          ),
-            
-            Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Número'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Número',
-                  ),
-                  controller: _numeroController,
-                ),),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child:ListTile(
-            title: Text('Bairro'),
-            subtitle:  TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Bairro',
-                  ),
-                  controller: _bairroController,
-                ),),
-              ),
-            ],
-          ),
-            Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Cidade'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Cidade',
-                  ),
-                  controller: _cidadeController,
-                ),),
-              ),
-            ],
-          ),
-            Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Telefone'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Telefone',
-                  ),
-                  controller: _telefoneController,
-                ),),
-              ),
-            ],
-          ),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Experiência'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Experiência',
-                  ),
-                  controller: _experienciaController,
-                ),),
               ),
             ]),
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Expanded(
                 child: ListTile(
-            title: Text('Senha'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Senha',
+                  title: Text('Senha'),
+                  subtitle: TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4))),
+                      hintText: '  Senha',
+                    ),
+                    controller: _senhaController,
                   ),
-                  controller: _senhaController,
-                ),),
+                ),
               ),
             ]),
-            
-            Row(mainAxisAlignment: MainAxisAlignment.center, 
-              children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
-                onPressed: () {
-                  if(_formKey.currentState!.validate()) {
-                    if(_id != null) {
-                      _alterar();
-                    } else {
-                      _salvar();
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (_id != null) {
+                        _alterar();
+                      } else {
+                        _salvar();
+                      }
                     }
-                  }
-                },
-                child: const Text('Salvar')
-              ),
+                  },
+                  child: const Text('Salvar')),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -360,23 +371,24 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _id = widget.id;
+    if (_id != null) {
+      _obterUsuario();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Map m = ModalRoute.of(context)!.settings.arguments as Map;
-    _id = m["id"];
-    _obterUsuario();
     return Scaffold(
-      resizeToAvoidBottomInset : false,
-      appBar: AppBar(
-        title: const Text("Editar Perfil"),
-        backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
-      ),
-      //drawer: const AppDrawer(),
-      body: SingleChildScrollView(
-    child:_buildForm(context),
-    ));
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+            title: const Text("Editar Perfil"),
+            backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
+        //drawer: const AppDrawer(),
+        body: SingleChildScrollView(
+          child: _buildForm(context),
+        ));
   }
 }
-
-
-
-

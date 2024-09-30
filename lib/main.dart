@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:luna/model/usuario.dart';
 import 'package:luna/provider/auth_provider.dart';
+import 'package:luna/routes/route_manager.dart';
 import 'package:luna/routes/routes.dart';
 import 'package:luna/view/login.dart';
-import 'package:luna/view/perfil/inserir_perfil_artista.dart';
-import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
+import 'package:luna/view/perfil/EXCLUIRinserir_perfil_artista.dart';
+import 'package:luna/view/perfil/manter_perfil_empresa.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
+import 'package:luna/view/usuario/home.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -37,19 +41,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'LUNA'),
-      routes: {
-        Routes.home: (context) => const MyHomePage(title: 'LUNA'),
-        Routes.login:(context) => const LoginPage(),
-        Routes.usuarioEdit:(context) => const EditarUsuarioArtistaPage(),
-        Routes.verPerfil:(context) => const VerUsuarioArtistaPage(),
-        Routes.listarVagas:(context) => const ListarVagasPage(),
-        Routes.manterVaga:(context) => const ManterVagaPage(),
-        Routes.listarVagasDisponiveis:(context) => const ListarVagasDisponiveisPage(),
-        Routes.visualizarVaga:(context) => const VisualizarVagaPage(),
-        Routes.listarCandidaturasArtista:(context) => const ListarCandidaturasArtistaPage(),
-        //FIXME Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage()
-      },
+      onGenerateRoute: RouteManager.generateRoute,
+      initialRoute: authProvider.isLoggedIn ? Routes.home : Routes.login,
+      home: authProvider.isLoggedIn 
+          ? const HomePage()
+          : const LoginPage(),
     );
   }
 }
@@ -58,7 +54,7 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
-  static const String routeName = '/home';
+  static const String routeName = '/initial';
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -118,26 +114,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, EditarUsuarioArtistaPage.routeName);
-            }, child: Text("Novo Perfil Artista")),
-            ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, EditarUsuarioEmpresaPage.routeName);
-            }, child: Text("Novo Perfil Empresa")),
-            ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, VerUsuarioArtistaPage.routeName,
-        arguments: <String, int>{"id": 3});
-            }, child: Text("Ver Perfil")),
-
-            ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, ListarVagasPage.routeName);
-            }, child: const Text("Listar Vagas")),
-            ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, ListarVagasDisponiveisPage.routeName);
-            }, child: const Text("Listar Vagas Disponíveis")),
-            ElevatedButton(onPressed: (){
-              Navigator.pushNamed(context, ListarCandidaturasArtistaPage.routeName);
-            }, child: const Text("Listar minhas candidaturas")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, LoginPage.routeName);
             }, child: const Text("Login")),
