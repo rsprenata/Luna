@@ -56,7 +56,6 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
     try { 
       ArtistaRepository repository = ArtistaRepository();
       _artista = await repository.buscar(_id!);
-      print(_artista);
 
       _nomeController.text = _artista.nome;
       _enderecoController.text = _artista.endereco;
@@ -68,7 +67,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
       _emailController.text = _artista.email;
       _telefoneController.text = _artista.telefone;
       _experienciaController.text = _artista.experiencia;
-      _senhaController.text = _artista.senha;
+      _senhaController.text = _artista.senha!;
       _alturaController.text = _artista.altura;
       _idadeController.text = _artista.idade != null ? _artista.idade.toString() : "";
 
@@ -93,6 +92,7 @@ class _VerUsuarioArtistaPageState extends State<VerUsuarioArtistaPage> {
       experiencia: _experienciaController.text,
       nivel: 1,
       idade: int.parse(_idadeController.text));
+
     try {
       ArtistaRepository repository = ArtistaRepository();
       await repository.inserir(_artista!);

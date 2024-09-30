@@ -56,6 +56,7 @@ class Empresa extends Usuario{
           nivel,
         );
 
+
   Map<String, dynamic> toMap() {
     return {
       'cnpj': cnpj,

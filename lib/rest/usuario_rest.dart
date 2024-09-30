@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:luna/model/usuario.dart';
 import 'package:luna/rest/api.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +13,27 @@ class UsuarioRest{
     } else {
       throw Exception(
           'Erro buscando usuario: $id [code: ${response.statusCode}]');
+    }
+  }
+
+  Future<Usuario?> login(String email, String senha) async {
+    final http.Response response = await http.post(
+        Uri.http(API.endpoint, '/usuario/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'senha': senha,
+        }),
+      );
+
+    if (response.statusCode == 200) {
+      return Usuario.fromJson(response.body);
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      throw Exception('Erro fazendo login');
     }
   }
 /*

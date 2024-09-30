@@ -3,13 +3,14 @@ import 'dart:convert';
 class Usuario {
   int? id;
   String email;
-  String senha;
+  String? senha;
   String endereco;
   String bairroEndereco;
   String numeroEndereco;
   String cidadeEndereco;
   String telefone;
   String nome;
+
   int? nivel;
 
   Usuario(this.id,
@@ -35,8 +36,8 @@ class Usuario {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'login': email,
       'nome': nome,
+      'email': email,
       'senha': senha,
       'endereco': endereco,
       'telefone': telefone,
@@ -50,8 +51,8 @@ class Usuario {
   static Usuario fromMap(Map<String, dynamic> map) {
     return Usuario(
       map['id'],
-      map['email'],
       map['nome'],
+      map['email'],
       map['senha'],
       map['endereco'],
       map['telefone'],
@@ -59,6 +60,7 @@ class Usuario {
       map['numeroEndereco'],
       map['cidadeEndereco'],
       map['nivel']
+
     );
   }
 

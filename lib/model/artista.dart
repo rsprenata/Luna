@@ -9,6 +9,7 @@ class Artista extends Usuario {
   String experiencia;
   int? idade;
 
+
   Artista({
     required int id,
     required String nome,
@@ -62,7 +63,6 @@ class Artista extends Usuario {
           nivel,
         );
 
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -77,12 +77,14 @@ class Artista extends Usuario {
       'bairroEndereco': bairroEndereco,
       'numeroEndereco': numeroEndereco,
       'cidadeEndereco': cidadeEndereco,
+      'nivel': nivel,
       'idade': idade
     };
   }
 
   static Artista fromMap(Map<String, dynamic> map) {
     return Artista(
+
       id: map['id'],
       email: map['email'],
       nome: map['nome'],

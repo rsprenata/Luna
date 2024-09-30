@@ -7,6 +7,11 @@ class UsuarioRepository {
   Future<Usuario> buscar(int id) async {
     return await api.buscar(id);
   }
+
+
+  Future<Usuario?> login(String email, String senha) async {
+    return await api.login(email, senha);
+  }
 /*
   Future<Usuario?> buscarPorCpf(String cpf) async {
     return await api.buscarPorCpf(cpf);
