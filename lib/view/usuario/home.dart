@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("LUNA HOME"),
+        title: const Text("LUNA"),
       ),
       endDrawer: authProvider.isLoggedIn ? const AppDrawer() : null,
       body: Padding(

@@ -26,6 +26,7 @@ class Vaga {
       'data': data,
       'qtdVagas': qtdVagas,
       'nivel': nivel.toMap(),
+      'empresa': empresa.toMap(),
     };
   }
 

@@ -1,23 +1,29 @@
 import 'dart:ffi';
 
+import 'package:flutter/services.dart';
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/artista.dart';
+import 'package:luna/model/empresa.dart';
 import 'package:luna/model/nivel.dart';
 import 'package:luna/model/usuario.dart';
 import 'package:luna/model/vaga.dart';
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/artista_repository.dart';
 import 'package:luna/repositories/usuario_repository.dart';
 import 'package:luna/repositories/vaga_repository.dart';
 import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterVagaPage extends StatefulWidget {
+  final int? id;
+
   static const String routeName = '/vaga/inserir';
 
-  const ManterVagaPage({super.key});
+  const ManterVagaPage({super.key, this.id});
   @override
-  _ManterVagaPageState createState() => _ManterVagaPageState();
+  State<ManterVagaPage> createState() => _ManterVagaPageState();
 }
 
 class _ManterVagaPageState extends State<ManterVagaPage> {
@@ -58,9 +64,16 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
   }
 
   void _salvar() async {
-    _vaga = Vaga.novo(_nomeController.text, _descricaoController.text, 
-    _valorController.text, _dataController.text,int.parse(_qtdVagasController.text), Nivel(1, "Ator"), _vaga.empresa);
-    
+      final usuario = Provider.of<AuthProvider>(context, listen: false).usuario;
+      
+    _vaga = Vaga.novo(
+        _nomeController.text,
+        _descricaoController.text,
+        _valorController.text,
+        _dataController.text,
+        int.parse(_qtdVagasController.text),
+        Nivel(1, "Ator"),
+        usuario as Empresa);
 
     try {
       VagaRepository repository = VagaRepository();
@@ -104,99 +117,105 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
           key: _formKey,
           child: ListView(shrinkWrap: true, children: [
             Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Título da vaga'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Título da vaga',
-                  ),
-                  controller: _nomeController,
-                ),),
-              ),
-            ],
-          ),
-            Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Descrição'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Descrição',
-                  ),
-                  controller: _descricaoController,
-                ),),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Valor'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Valor',
-                  ),
-                  controller: _valorController,
-                ),),
-              ),
-            ],
-          ),
-            
-            Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Data'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Data',
-                  ),
-                  controller: _dataController,
-                ),),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child:ListTile(
-            title: Text('Quantidade de vagas'),
-            subtitle:  TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Quantidade de vagas',
-                  ),
-                  controller: _qtdVagasController,
-                ),),
-              ),
-            ],
-          ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, 
               children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Título da vaga'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Título da vaga',
+                      ),
+                      controller: _nomeController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Descrição'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Descrição',
+                      ),
+                      controller: _descricaoController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Valor'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Valor',
+                      ),
+                      controller: _valorController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Data'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Data',
+                      ),
+                      controller: _dataController,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text('Quantidade de vagas'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Quantidade de vagas',
+                      ),
+                      controller: _qtdVagasController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    if(_id != null) {
-                      _alterar();
-                    } else {
-                      _salvar();
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (_id != null) {
+                        _alterar();
+                      } else {
+                        _salvar();
+                      }
                     }
-                  }
-                },
-                child: const Text('Salvar')
-              ),
+                  },
+                  child: const Text('Salvar')),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -209,26 +228,26 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final Map? m = ModalRoute.of(context)!.settings.arguments as Map?;
-    if(m != null && m["id"] != null) {
-      _id = m["id"];
-    _obterVaga();
+  void initState() {
+    super.initState();
+    _id = widget.id;
+    if (_id != null) {
+      _obterVaga();
     }
-  
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset : false,
-      appBar: AppBar(
-        title: const Text("Inserir nova vaga"),
-        backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
-      ),
-      //drawer: const AppDrawer(),
-      body: SingleChildScrollView(
-    child:_buildForm(context),
-    ));
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+            title: widget.id != null
+                ? Text("Editar vaga")
+                : Text("Inserir nova vaga"),
+            backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
+        //drawer: const AppDrawer(),
+        body: SingleChildScrollView(
+          child: _buildForm(context),
+        ));
   }
 }
-
-
-
-

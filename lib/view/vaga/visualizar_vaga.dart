@@ -6,20 +6,24 @@ import 'package:luna/model/candidatura.dart';
 import 'package:luna/model/status.dart';
 import 'package:luna/model/usuario.dart';
 import 'package:luna/model/vaga.dart';
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/artista_repository.dart';
 import 'package:luna/repositories/candidatura_repository.dart';
 import 'package:luna/repositories/usuario_repository.dart';
 import 'package:luna/repositories/vaga_repository.dart';
 import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class VisualizarVagaPage extends StatefulWidget {
+  final int? id;
+
   static const String routeName = '/vaga/visualizar';
 
-  const VisualizarVagaPage({super.key});
+  const VisualizarVagaPage({super.key, this.id});
   @override
-  _VisualizarVagaPageState createState() => _VisualizarVagaPageState();
+  State<VisualizarVagaPage> createState() => _VisualizarVagaPageState();
 }
 
 class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
@@ -31,21 +35,6 @@ class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
   final _qtdVagasController = TextEditingController();
 
   int? _id;
-  final Artista _artista = Artista(//aqui esta setando na mao o candidato!!! arrumar pra pegar o artista logado
-    id: 3,
-    nome: "nome",
-    email: "email",
-    senha: "senha",
-    endereco: "endereco",
-    telefone: "telefone",
-    bairroEndereco: "bairroEndereco",
-    numeroEndereco: "numeroEndereco",
-    cidadeEndereco: "cidadeEndereco",
-    nivel: 2,
-    peso: "peso",
-    altura: "altura",
-    experiencia: "experiencia",
-    idade: 22);
 
   late Vaga _vaga;
   late Candidatura _candidatura;
@@ -76,6 +65,27 @@ class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
   }
 
   void _candidatar() async {
+
+      final usuario = Provider.of<AuthProvider>(context, listen: false).usuario;
+
+
+  //TODO:MELHORAR ESSA GAMBI
+  final Artista _artista = Artista(
+    id: usuario!.id!,
+    nome: "nome",
+    email: "email",
+    senha: "senha",
+    endereco: "endereco",
+    telefone: "telefone",
+    bairroEndereco: "bairroEndereco",
+    numeroEndereco: "numeroEndereco",
+    cidadeEndereco: "cidadeEndereco",
+    nivel: 2,
+    peso: "peso",
+    altura: "altura",
+    experiencia: "experiencia",
+    idade: 22);
+
     _candidatura = Candidatura.novo(_vaga, _artista, Status(3, "Em análise"));
     
 
@@ -196,13 +206,16 @@ class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final Map? m = ModalRoute.of(context)!.settings.arguments as Map?;
-    if(m != null && m["id"] != null) {
-      _id = m["id"];
-    _obterVaga();
+  void initState() {
+    super.initState();
+    _id = widget.id;
+    if (_id != null) {
+      _obterVaga();
     }
-  
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(

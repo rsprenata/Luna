@@ -36,8 +36,7 @@ class RouteManager {
               return const LoginPage();
             }
             final args = settings.arguments as Map<String, dynamic>;
-            return const ManterPerfilArtistaPage();
-            //return ManterPerfilArtistaPage(id: args['id']);
+            return ManterPerfilArtistaPage(id: args['id']);
           } else {
             return const ManterPerfilArtistaPage();
           }
@@ -52,15 +51,21 @@ class RouteManager {
             return const ManterPerfilEmpresaPage();
           }
         case Routes.manterVaga:
-          if (usuario == null) {
-            return const LoginPage();
+          if (settings.arguments != null) {
+            if (usuario == null) {
+              return const LoginPage();
+            }
+            final args = settings.arguments as Map<String, dynamic>;
+            return ManterVagaPage(id: args['id']);
+          } else {
+            return const ManterVagaPage();
           }
-          return const ManterVagaPage();
         case Routes.visualizarVaga:
           if (usuario == null) {
             return const LoginPage();
           }
-          return const VisualizarVagaPage();
+          final args = settings.arguments as Map<String, dynamic>;
+          return VisualizarVagaPage(id: args['id']);
         case Routes.listarVagas:
           if (usuario == null) {
             return const LoginPage();

@@ -13,13 +13,14 @@ import 'package:provider/provider.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterPerfilEmpresaPage extends StatefulWidget {
-  final int? id; 
+  final int? id;
 
   static const String routeName = '/perfilEmpresa/editar';
 
   const ManterPerfilEmpresaPage({super.key, this.id});
   @override
-  State<ManterPerfilEmpresaPage> createState() => _ManterPerfilEmpresaPageState();
+  State<ManterPerfilEmpresaPage> createState() =>
+      _ManterPerfilEmpresaPageState();
 }
 
 class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
@@ -36,7 +37,8 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
   final _descricaoController = TextEditingController();
 
   int? _id = 0;
-  Usuario? _usuario;
+
+  late Empresa _empresa;
   @override
   void dispose() {
     _nomeController.dispose();
@@ -46,32 +48,43 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
   void _obterUsuario() async {
     try {
       //var maskFormatter = MaskTextInputFormatter(mask: '###.###.###-##', filter: { "#": RegExp(r'[0-9]') });
-      UsuarioRepository repository = UsuarioRepository();
-      _usuario = await repository.buscar(_id!);
-      _nomeController.text = _usuario!.nome;
+      EmpresaRepository repository = EmpresaRepository();
+      _empresa = await repository.buscar(_id!);
+
+      _nomeController.text = _empresa.nome;
+      _bairroController.text = _empresa.bairroEndereco;
+      _cidadeController.text = _empresa.cidadeEndereco;
+      _numeroController.text = _empresa.numeroEndereco;
+      _senhaController.text = _empresa.senha!;
+      _emailController.text = _empresa.email;
+      _telefoneController.text = _empresa.telefone;
+      _enderecoController.text = _empresa.endereco;
+      _cnpjController.text = _empresa.cnpj;
+      _descricaoController.text = _empresa.descricao!;
     } catch (exception) {
-      showError(context, "Erro recuperando usuario", exception.toString());
+      showError(context, "Erro recuperando empresa", exception.toString());
       Navigator.pop(context);
     }
   }
 
   void _salvar() async {
     Empresa _empresa = Empresa.novo(
-      nome: _nomeController.text,
-      email: _emailController.text,
-      senha: _senhaController.text,
-      endereco: _enderecoController.text,
-      telefone: _telefoneController.text,
-      bairroEndereco: _bairroController.text,
-      numeroEndereco: _numeroController.text,
-      cidadeEndereco: _cidadeController.text,
-      nivel: 2,
-      cnpj: _cnpjController.text,
-      descricao: _descricaoController.text);
+        nome: _nomeController.text,
+        email: _emailController.text,
+        senha: _senhaController.text,
+        endereco: _enderecoController.text,
+        telefone: _telefoneController.text,
+        bairroEndereco: _bairroController.text,
+        numeroEndereco: _numeroController.text,
+        cidadeEndereco: _cidadeController.text,
+        nivel: 2,
+        cnpj: _cnpjController.text,
+        descricao: _descricaoController.text);
 
     try {
       EmpresaRepository repository = EmpresaRepository();
       Empresa e = await repository.inserir(_empresa);
+
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       authProvider.login(e);
 
@@ -79,7 +92,6 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
           .showSnackBar(const SnackBar(content: Text('Logado com sucesso.')));
 
       Navigator.pushReplacementNamed(context, Routes.home);
-
 
       _nomeController.clear();
       _enderecoController.clear();
@@ -93,184 +105,219 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
       _descricaoController.clear();
       _emailController.clear();
       _telefoneController.clear();
-
     } catch (exception) {
       showError(context, "Erro inserindo empresa", exception.toString());
     }
   }
+
+  void _alterar() async {
+    _empresa.nome = _nomeController.text;
+    _empresa.bairroEndereco = _bairroController.text;
+    _empresa.cidadeEndereco = _cidadeController.text;
+    _empresa.numeroEndereco = _numeroController.text;
+    _empresa.senha = _senhaController.text;
+    _empresa.email = _emailController.text;
+    _empresa.telefone = _telefoneController.text;
+    _empresa.endereco = _enderecoController.text;
+    _empresa.cnpj = _cnpjController.text;
+    _empresa.descricao = _descricaoController.text;
+
+    try {
+      EmpresaRepository repository = EmpresaRepository();
+      await repository.alterar(_empresa);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Empresa editada com sucesso.')));
+      Navigator.pop(context);
+    } catch (exception) {
+      showError(context, "Erro editando empresa", exception.toString());
+    }
+  }
+
   Widget _buildForm(BuildContext context) {
     return Column(children: [
       Form(
           key: _formKey,
           child: ListView(shrinkWrap: true, children: [
             Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Nome da empresa'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Nome da empresa',
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Nome da empresa'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Nome da empresa',
+                      ),
+                      controller: _nomeController,
+                    ),
                   ),
-                  controller: _nomeController,
-                ),),
-              ),
-            ],
-          ),Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Descrição da empresa'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Descrição da empresa',
-                  ),
-                  controller: _descricaoController,
-                ),),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('CNPJ da empresa'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  CNPJ da empresa',
-                  ),
-                  controller: _cnpjController,
-                ),),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
             Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Email'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Email',
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Descrição da empresa'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Descrição da empresa',
+                      ),
+                      controller: _descricaoController,
+                    ),
                   ),
-                  controller: _emailController,
-                ),),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Endereço'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Endereço',
-                  ),
-                  controller: _enderecoController,
-                ),),
-              ),
-            ],
-          ),
-            
+                ),
+              ],
+            ),
             Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Número'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Número',
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('CNPJ da empresa'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  CNPJ da empresa',
+                      ),
+                      controller: _cnpjController,
+                    ),
                   ),
-                  controller: _numeroController,
-                ),),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child:ListTile(
-            title: Text('Bairro'),
-            subtitle:  TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Bairro',
-                  ),
-                  controller: _bairroController,
-                ),),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
             Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Cidade'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Cidade',
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Email'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Email',
+                      ),
+                      controller: _emailController,
+                    ),
                   ),
-                  controller: _cidadeController,
-                ),),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
             Row(
-            children: [
-              Expanded(
-                child: ListTile(
-            title: Text('Telefone'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Telefone',
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Endereço'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Endereço',
+                      ),
+                      controller: _enderecoController,
+                    ),
                   ),
-                  controller: _telefoneController,
-                ),),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Número'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Número',
+                      ),
+                      controller: _numeroController,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Bairro'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Bairro',
+                      ),
+                      controller: _bairroController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Cidade'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Cidade',
+                      ),
+                      controller: _cidadeController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: const Text('Telefone'),
+                    subtitle: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        hintText: '  Telefone',
+                      ),
+                      controller: _telefoneController,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Expanded(
                 child: ListTile(
-            title: Text('Senha'),
-            subtitle: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4))),
-                    hintText: '  Senha',
+                  title: const Text('Senha'),
+                  subtitle: TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4))),
+                      hintText: '  Senha',
+                    ),
+                    controller: _senhaController,
                   ),
-                  controller: _senhaController,
-                ),),
+                ),
               ),
             ]),
-            
-            Row(mainAxisAlignment: MainAxisAlignment.center, 
-              children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _salvar();
-                  }
-                },
-                child: const Text('Salvar')
-              ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (_id != null) {
+                        _alterar();
+                      } else {
+                        _salvar();
+                      }
+                    }
+                  },
+                  child: const Text('Salvar')),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -282,12 +329,10 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
     ]);
   }
 
-
-
-@override
+  @override
   void initState() {
     super.initState();
-    _id = widget.id; 
+    _id = widget.id;
     if (_id != null) {
       _obterUsuario();
     }
@@ -296,14 +341,13 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset : false,
-      appBar: AppBar(
-        title: const Text("Cadastrar Empresa"),
-        backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
-      ),
-      //drawer: const AppDrawer(),
-      body: SingleChildScrollView(
-    child:_buildForm(context),
-    ));
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+            title: widget.id != null ? const Text("Editar Empresa") : const Text("Cadastrar Empresa"),
+            backgroundColor: const Color.fromRGBO(159, 34, 190, 0.965)),
+        //drawer: const AppDrawer(),
+        body: SingleChildScrollView(
+          child: _buildForm(context),
+        ));
   }
 }

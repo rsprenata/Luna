@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/vaga.dart';
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/vaga_repository.dart';
 import 'package:luna/routes/routes.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
+import 'package:provider/provider.dart';
 
 class ListarVagasPage extends StatefulWidget {
   static const String routeName = '/vagas';
@@ -18,6 +20,11 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _refreshList();
   }
 
@@ -36,11 +43,11 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
   Future<List<Vaga>> _obterTodos() async {
     List<Vaga> tempLista = <Vaga>[];
     try {
+      final usuario = Provider.of<AuthProvider>(context, listen: false).usuario;
       VagaRepository repository = VagaRepository();
-      tempLista = await repository.buscarTodos();
+      tempLista = await repository.buscarTodosByEmpresa(usuario!.id!);
     } catch (exception) {
-      showError(
-          context, "Erro obtendo lista de Vagas", exception.toString());
+      showError(context, "Erro obtendo lista de Vagas", exception.toString());
     }
     return tempLista;
   }
@@ -150,15 +157,20 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
         itemBuilder: (context) {
           return [
             const PopupMenuItem(value: 'edit', child: Text('Editar')),
-            const PopupMenuItem(value: 'delete', child: Text('Remover'))
+            //const PopupMenuItem(value: 'delete', child: Text('Remover')),
+            const PopupMenuItem(
+                value: 'candidaturas', child: Text('Ver Candidaturas*'))
           ];
         },
         onSelected: (String value) async {
           if (value == 'edit') {
             //_editItem(context, index);.
-            final atualizar = await Navigator.pushNamed(context, Routes.manterVaga, arguments: {"id" : v.id});
-            if(atualizar != null && atualizar == true) _refreshList();
+            final atualizar = await Navigator.pushNamed(
+                context, Routes.manterVaga,
+                arguments: {"id": v.id});
+            if (atualizar != null && atualizar == true) _refreshList();
           } else {
+            Navigator.pushNamed(context, Routes.listarCandidaturasEmpresa);
             //_removeItem(context, index);
           }
         },
@@ -166,10 +178,64 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
     );
   }
 
+  /*void _removeItem(BuildContext context, int index) {
+    Vaga v = _lista[index];
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: const Text("Remover Cliente"),
+              content: Text("Gostaria realmente de remover ${b.nome}?"),
+              actions: [
+                TextButton(
+                  child: const Text("Não"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text("Sim"),
+                  onPressed: () {
+                    _removerVaga(v);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ));
+  }
+
+  void _removerVaga(Vaga vaga) async {
+    try {
+      VagaRepository vagaRepository = VagaRepository();
+      await vagaRepository.remover(vaga.id!).then((value) {
+          _refreshList();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Cliente ${cliente.id} removido com sucesso.')));
+        });
+
+
+      List<Pedido> pedidos = await vagaRepository.listarPorCpf(cliente.cpf);
+
+      if (pedidos.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Não é possível excluir esse cliente pois ele tem pedidos.')));
+      } else {
+        ClienteRepository repository = ClienteRepository();
+        await repository.remover(cliente.id!).then((value) {
+          _refreshList();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Cliente ${cliente.id} removido com sucesso.')));
+        });
+      }
+    } catch (exception) {
+      showError(context, "Erro removendo cliente", exception.toString());
+    }
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Listagem de Vagas"),
       ),
@@ -179,15 +245,16 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
         itemBuilder: _buildItem,
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final atualizar = await Navigator.pushNamed(context, ManterVagaPage.routeName);
-            if(atualizar != null && atualizar == true) _refreshList();
-          },
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.green,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.plus_one),
-        ),
+        onPressed: () async {
+          final atualizar =
+              await Navigator.pushNamed(context, ManterVagaPage.routeName);
+          if (atualizar != null && atualizar == true) _refreshList();
+        },
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.green,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.plus_one),
+      ),
       /*floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, Routes.VagaInsert)
             .then((value) => _refreshList()),

@@ -101,6 +101,23 @@ Widget build(BuildContext context) {
                         Navigator.pop(context);
                         Navigator.pushNamed(context, Routes.listarCandidaturasArtista);
                       }),
+                ]
+                else if (nivel == 2) ...[
+                  _createDrawerItem(
+                      icon: Icons.person,
+                      text: 'Meu perfil',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, Routes.manterPerfilEmpresa,
+                              arguments: <String, int>{"id": idUsuario!});
+                      }),
+                  _createDrawerItem(
+                      icon: Icons.work,
+                      text: 'Listar Vagas',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, Routes.listarVagas);
+                      }),
                 ],
                 // Aqui estão os itens que você deseja que fiquem embaixo
               ],
@@ -111,7 +128,7 @@ Widget build(BuildContext context) {
               text: 'Logout',
               onTap: () {
                 context.read<AuthProvider>().logout();
-                Navigator.pushReplacementNamed(context, Routes.initial);
+                Navigator.pushReplacementNamed(context, Routes.login);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                       content: Text('Sucesso!'),

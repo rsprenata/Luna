@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luna/routes/routes.dart';
 
 class EscolhaPerfilScreen extends StatelessWidget {
   static const String routeName = '/escolha';
@@ -16,7 +17,7 @@ class EscolhaPerfilScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Navegue para a tela de cadastro de artista
-                Navigator.pushNamed(context, '/cadastroArtista');
+                Navigator.pushNamed(context, Routes.manterPerfilArtista);
               },
               child: Text('Sou Artista'),
               style: ElevatedButton.styleFrom(
@@ -28,7 +29,7 @@ class EscolhaPerfilScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Navegue para a tela de cadastro de empresa
-                Navigator.pushNamed(context, '/cadastroEmpresa');
+                Navigator.pushNamed(context, Routes.manterPerfilEmpresa);
               },
               child: Text('Sou Empresa'),
               style: ElevatedButton.styleFrom(

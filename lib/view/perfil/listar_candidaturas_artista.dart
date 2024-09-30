@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/candidatura.dart';
 import 'package:luna/model/vaga.dart';
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/candidatura_repository.dart';
 import 'package:luna/repositories/vaga_repository.dart';
 import 'package:luna/routes/routes.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
+import 'package:provider/provider.dart';
 
 class ListarCandidaturasArtistaPage extends StatefulWidget {
   static const String routeName = '/candidatura/candidaturasArtista';
@@ -17,7 +19,6 @@ class ListarCandidaturasArtistaPage extends StatefulWidget {
 
 class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtistaPage> {
   List<Candidatura> _lista = <Candidatura>[];
-  int _artistaId = 3;
   
   @override
   void initState() {
@@ -41,7 +42,9 @@ class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtist
     List<Candidatura> tempLista = <Candidatura>[];
     try {
       CandidaturaRepository repository = CandidaturaRepository();
-      tempLista = await repository.buscarCandidaturasArtista(_artistaId);
+      final usuario = Provider.of<AuthProvider>(context, listen: false).usuario;
+      
+      tempLista = await repository.buscarCandidaturasArtista(usuario!.id!);
     } catch (exception) {
       showError(
           context, "Erro obtendo lista de Vagas", exception.toString());

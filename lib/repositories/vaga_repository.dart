@@ -9,6 +9,9 @@ class VagaRepository {
   Future<List<Vaga>> buscarTodos() async {
     return await api.buscarTodos();
   }
+  Future<List<Vaga>> buscarTodosByEmpresa(int id) async {
+    return await api.buscarTodosByEmpresa(id);
+  }
   Future<Vaga> buscar(int id) async {
     return await api.buscar(id);
   }
@@ -18,6 +21,9 @@ class VagaRepository {
   Future<Vaga> inserir(Vaga artista) async {
     return await api.inserir(artista);
   }
+  /*Future<Vaga> remover(int id) async {
+    return await api.remover(id);
+  }*/
 /*
   Future<Usuario?> buscarPorCpf(String cpf) async {
     return await api.buscarPorCpf(cpf);
@@ -29,7 +35,5 @@ class VagaRepository {
 
   
 
-  Future<Usuario> remover(int id) async {
-    return await api.remover(id);
-  }*/
+  */
 }

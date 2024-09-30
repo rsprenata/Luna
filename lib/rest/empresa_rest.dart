@@ -16,7 +16,7 @@ class EmpresaRest{
 
   Future<Empresa> alterar(Empresa empresa) async {
     final http.Response response = await http.put(
-      Uri.http(API.endpoint, 'empresas/${empresa.id}'),
+      Uri.http(API.endpoint, 'empresa/${empresa.id}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -3,10 +3,13 @@ import 'dart:ffi';
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/artista.dart';
 import 'package:luna/model/usuario.dart';
+import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/artista_repository.dart';
 import 'package:luna/repositories/usuario_repository.dart';
+import 'package:luna/routes/routes.dart';
 import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterPerfilArtistaPage extends StatefulWidget {
@@ -98,7 +101,16 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
 
     try {
       ArtistaRepository repository = ArtistaRepository();
-      await repository.inserir(_artista!);
+      Artista a = await repository.inserir(_artista!);
+
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      authProvider.login(a);
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Logado com sucesso.')));
+
+      Navigator.pushReplacementNamed(context, Routes.home);
+
       _nomeController.clear();
       _enderecoController.clear();
       _bairroController.clear();
@@ -110,10 +122,6 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
       _enderecoController.clear();
       _emailController.clear();
       _telefoneController.clear();
-
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Artista inserido com sucesso.')));
-      Navigator.pop(context);
     } catch (exception) {
       showError(context, "Erro inserindo artista", exception.toString());
     }
@@ -384,7 +392,7 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: const Text("Editar Perfil"),
+            title: widget.id != null ? const Text("Editar Perfil") : const Text("Novo Perfil"),
             backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
         //drawer: const AppDrawer(),
         body: SingleChildScrollView(
