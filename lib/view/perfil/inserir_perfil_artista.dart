@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class EditarUsuarioArtistaPage extends StatefulWidget {
-  static const String routeName = '/perfilArtista/editar';
+  static const String routeName = '/cadastroArtista';
 
   const EditarUsuarioArtistaPage({super.key});
   @override
@@ -312,7 +312,7 @@ class _EditarUsuarioArtistaPageState extends State<EditarUsuarioArtistaPage> {
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
-        title: const Text("Novo perfil"),
+        title: const Text("Cadastrar Artista"),
         backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)
       ),
       //drawer: const AppDrawer(),

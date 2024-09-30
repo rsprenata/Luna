@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luna/model/usuario.dart';
 import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/routes/routes.dart';
+import 'package:luna/view/escolha_perfil.dart';
 import 'package:luna/view/login.dart';
 import 'package:luna/view/perfil/inserir_perfil_artista.dart';
 import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
@@ -42,12 +43,14 @@ class MyApp extends StatelessWidget {
         Routes.home: (context) => const MyHomePage(title: 'LUNA'),
         Routes.login:(context) => const LoginPage(),
         Routes.usuarioEdit:(context) => const EditarUsuarioArtistaPage(),
+        Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage(),
         Routes.verPerfil:(context) => const VerUsuarioArtistaPage(),
         Routes.listarVagas:(context) => const ListarVagasPage(),
         Routes.manterVaga:(context) => const ManterVagaPage(),
         Routes.listarVagasDisponiveis:(context) => const ListarVagasDisponiveisPage(),
         Routes.visualizarVaga:(context) => const VisualizarVagaPage(),
         Routes.listarCandidaturasArtista:(context) => const ListarCandidaturasArtistaPage(),
+        Routes.escolhaPerfil:(context) => EscolhaPerfilScreen(),
         //FIXME Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage()
       },
     );

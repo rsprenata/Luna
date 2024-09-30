@@ -59,6 +59,16 @@ class Empresa extends Usuario{
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
+      'nome': nome,
+      'email': email,
+      'senha': senha,
+      'endereco': endereco,
+      'telefone': telefone,
+      'bairroEndereco': bairroEndereco,
+      'numeroEndereco': numeroEndereco,
+      'cidadeEndereco': cidadeEndereco,
+      'nivel': nivel,
       'cnpj': cnpj,
       'descricao': descricao
     };
