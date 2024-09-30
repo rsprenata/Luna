@@ -7,6 +7,7 @@ import 'package:luna/view/login.dart';
 import 'package:luna/view/perfil/inserir_perfil_artista.dart';
 import 'package:luna/view/perfil/inserir_perfil_empresa.dart';
 import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
+import 'package:luna/view/perfil/listar_candidaturas_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         Routes.visualizarVaga:(context) => const VisualizarVagaPage(),
         Routes.listarCandidaturasArtista:(context) => const ListarCandidaturasArtistaPage(),
         Routes.escolhaPerfil:(context) => EscolhaPerfilScreen(),
+        Routes.listarCandidaturasEmpresa: (context) => const ListarCandidaturasEmpresaPage(),
         //FIXME Routes.usuarioEmpresaEdit:(context) => const EditarUsuarioEmpresaPage()
       },
     );
@@ -141,6 +143,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, ListarCandidaturasArtistaPage.routeName);
             }, child: const Text("Listar minhas candidaturas")),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, ListarCandidaturasEmpresaPage.routeName);
+            }, child: const Text("Listar candidaturas empresa")),
             ElevatedButton(onPressed: (){
               Navigator.pushNamed(context, LoginPage.routeName);
             }, child: const Text("Login")),
