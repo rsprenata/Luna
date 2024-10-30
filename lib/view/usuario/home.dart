@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               if (nivel == 1) ...[
                 _buildSquareButton(
                     context, Icons.person, "Meu Perfil", Colors.blue, Routes.manterPerfilArtista,
-                    arguments: {'id': idUsuario}),
+                    arguments: {'id': idUsuario, "isReadOnly": false}),
                 _buildSquareButton(
                     context, Icons.work, "Trabalhos Disponíveis", Colors.green, Routes.listarVagasDisponiveis),
                 _buildSquareButton(

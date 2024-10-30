@@ -92,7 +92,8 @@ class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Candidatura feita com sucesso.')));
+          const SnackBar(content: Text('Candidatura feita com sucesso.'),
+          behavior: SnackBarBehavior.floating));
       Navigator.pop(context, true);
     } catch (exception) {
       showError(context, "Erro ao candidatar-se", exception.toString());

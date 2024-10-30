@@ -9,7 +9,6 @@ class CandidaturaRest{
     final http.Response response =
         await http.get(Uri.http(API.endpoint, "candidatura/artista/$id"));
     if (response.statusCode == 200) {
-      print(response.body);
       return Candidatura.fromJsonList(response.body);
     } else {
       throw Exception('Erro buscando todos as candidaturas do artista.');
@@ -20,10 +19,19 @@ class CandidaturaRest{
     final http.Response response =
         await http.get(Uri.http(API.endpoint, "candidatura/empresa/$id"));
     if (response.statusCode == 200) {
-      print(response.body);
       return Candidatura.fromJsonList(response.body);
     } else {
-      throw Exception('Erro buscando todos as candidaturas do artista.');
+      throw Exception('Erro buscando todos as candidaturas do empresa.');
+    }
+  }
+
+  Future<List<Candidatura>> buscarCandidaturasVaga(int id) async {
+    final http.Response response =
+        await http.get(Uri.http(API.endpoint, "candidatura/vaga/$id"));
+    if (response.statusCode == 200) {
+      return Candidatura.fromJsonList(response.body);
+    } else {
+      throw Exception('Erro buscando todos as candidaturas do vaga.');
     }
   }
   /*
@@ -67,15 +75,44 @@ class CandidaturaRest{
       throw Exception('Erro inserindo candidatura.');
     }
   }
-/*
-  Future<vaga?> buscarPorCpf(String cpf) async {
-    final http.Response response =
-        await http.get(Uri.http(API.endpoint, '/clientes/cpf/$cpf'));
+
+ Future<void> aprovarCandidatura(int id) async {
+    final http.Response response = await http.put(
+      Uri.http(API.endpoint, 'candidatura/aprovar/$id')
+    );
     if (response.statusCode == 200) {
-      return response.body == "" ? null : vaga.fromJson(response.body);
+      return;
     } else {
-      throw Exception(
-          'Erro buscando vaga: $cpf [code: ${response.statusCode}]');
+      throw Exception('Erro aprovando.');
+    }
+  }
+
+ Future<void> reprovarCandidatura(int id) async {
+    final http.Response response = await http.put(
+      Uri.http(API.endpoint, 'candidatura/reprovar/$id')
+    );
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Erro aprovando.');
+    }
+  }
+
+
+/* Future<Vaga> alterar(Vaga vaga) async {
+    final http.Response response = await http.put(
+      Uri.http(API.endpoint, 'vaga/${vaga.id}'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: vaga.toJson(),
+    );
+    if (response.statusCode == 200) {
+      return vaga;
+    } else {
+      throw Exception('Erro alterando vaga ${vaga.id}.');
+    }
+  }atusCode}]');
     }
   }
 

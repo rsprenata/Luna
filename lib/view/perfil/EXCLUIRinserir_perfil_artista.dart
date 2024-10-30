@@ -84,7 +84,8 @@ class _EditarUsuarioArtistaPageState extends State<EditarUsuarioArtistaPage> {
     _telefoneController.clear();
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Artista inserido com sucesso.')));
+          const SnackBar(content: Text('Artista inserido com sucesso.'),
+          behavior: SnackBarBehavior.floating));
       Navigator.pop(context);
     } catch (exception) {
       showError(context, "Erro inserindo artista", exception.toString());

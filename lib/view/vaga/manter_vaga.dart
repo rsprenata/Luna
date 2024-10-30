@@ -11,6 +11,7 @@ import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/artista_repository.dart';
 import 'package:luna/repositories/usuario_repository.dart';
 import 'package:luna/repositories/vaga_repository.dart';
+import 'package:luna/routes/routes.dart';
 import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +86,8 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
       _qtdVagasController.clear();
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Vaga inserida com sucesso.')));
+          const SnackBar(content: Text('Vaga inserida com sucesso.'),
+          behavior: SnackBarBehavior.floating));
       Navigator.pop(context, true);
     } catch (exception) {
       showError(context, "Erro inserindo vaga", exception.toString());
@@ -104,7 +106,8 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
       await repository.alterar(_vaga);
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Vaga editada com sucesso.')));
+          const SnackBar(content: Text('Vaga editada com sucesso.'),
+          behavior: SnackBarBehavior.floating));
       Navigator.pop(context, true);
     } catch (exception) {
       showError(context, "Erro editando vaga", exception.toString());
@@ -120,7 +123,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
               children: [
                 Expanded(
                   child: ListTile(
-                    title: Text('Título da vaga'),
+                    title: const Text('Título da vaga', style: TextStyle(fontSize: 20)),
                     subtitle: TextFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
@@ -137,7 +140,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
               children: [
                 Expanded(
                   child: ListTile(
-                    title: Text('Descrição'),
+                    title: const Text('Descrição', style: TextStyle(fontSize: 20)),
                     subtitle: TextFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
@@ -154,7 +157,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
               children: [
                 Expanded(
                   child: ListTile(
-                    title: Text('Valor'),
+                    title: const Text('Valor', style: TextStyle(fontSize: 20)),
                     subtitle: TextFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
@@ -171,7 +174,7 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
               children: [
                 Expanded(
                   child: ListTile(
-                    title: Text('Data'),
+                    title: const Text('Data', style: TextStyle(fontSize: 20)),
                     subtitle: TextFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
@@ -182,17 +185,17 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Expanded(
                   child: ListTile(
-                    title: Text('Quantidade de vagas'),
+                    title: const Text('Vagas', style: TextStyle(fontSize: 20)),
                     subtitle: TextFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Quantidade de vagas',
+                        hintText: '  Vagas',
                       ),
                       controller: _qtdVagasController,
                       keyboardType: TextInputType.number,
@@ -204,7 +207,8 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
                 ),
               ],
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            const SizedBox(height: 15),
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -215,12 +219,21 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
                       }
                     }
                   },
-                  child: const Text('Salvar')),
-              ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
+                        foregroundColor: Colors.black,
+                      ),
+                  child: const Text('Salvar', style: TextStyle(fontSize: 20))),
+                  const SizedBox(height: 5),
+              OutlinedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Cancelar'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                    ),
+                child: const Text('Cancelar', style: TextStyle(fontSize: 20)),
               ),
             ])
           ])) // Form
@@ -242,13 +255,13 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
             title: widget.id != null
-                ? Text("Editar vaga")
-                : Text("Inserir nova vaga"),
+                ? const Text("Editar vaga")
+                : const Text("Inserir nova vaga"),
             //backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary),
         //drawer: const AppDrawer(),
         body: SingleChildScrollView(
           child: _buildForm(context),
-        ));
+        ),);
   }
 }

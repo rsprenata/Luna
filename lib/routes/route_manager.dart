@@ -8,6 +8,7 @@ import 'package:luna/view/perfil/listar_candidaturas_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/perfil/manter_perfil_empresa.dart';
 import 'package:luna/view/usuario/home.dart';
+import 'package:luna/view/usuario/home_artista.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
@@ -26,6 +27,9 @@ class RouteManager {
           return const MyHomePage(title: 'LUNA');
         case Routes.home:
           return const HomePage();
+        case Routes.homeArtista:
+          final args = settings.arguments as Map<String, dynamic>;
+          return HomeArtista(initialTabIndex: args['initialTabIndex']);
         case Routes.login:
           return const LoginPage();
         case Routes.escolhaPerfil:
@@ -36,9 +40,9 @@ class RouteManager {
               return const LoginPage();
             }
             final args = settings.arguments as Map<String, dynamic>;
-            return ManterPerfilArtistaPage(id: args['id']);
+            return ManterPerfilArtistaPage(id: args['id'], isReadOnly: args['isReadOnly']);
           } else {
-            return const ManterPerfilArtistaPage();
+            return const ManterPerfilArtistaPage(isReadOnly: false);
           }
         case Routes.manterPerfilEmpresa:
           if (settings.arguments != null) {
@@ -85,7 +89,8 @@ class RouteManager {
           if (usuario == null) {
             return const LoginPage();
           }
-          return const ListarCandidaturasEmpresaPage();
+          final args = settings.arguments as Map<String, dynamic>;
+          return ListarCandidaturasEmpresaPage(id: args['id']);
         default:
           return const LoginPage();
       }

@@ -7,6 +7,7 @@ import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
 import 'package:luna/view/perfil/listar_candidaturas_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/usuario/home.dart';
+import 'package:luna/view/usuario/home_artista.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
@@ -16,6 +17,7 @@ class Routes {
 static const String initial = MyHomePage.routeName;
 
 static const String home = HomePage.routeName;
+static const String homeArtista = HomeArtista.routeName;
 
 static const String login = LoginPage.routeName;
 /*static const String clienteList = ListarClientesPage.routeName;

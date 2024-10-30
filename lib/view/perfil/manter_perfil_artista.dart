@@ -14,10 +14,11 @@ import 'package:provider/provider.dart';
 
 class ManterPerfilArtistaPage extends StatefulWidget {
   final int? id;
+  final bool isReadOnly; // Novo parâmetro opcional
 
   static const String routeName = '/perfil/ver';
 
-  const ManterPerfilArtistaPage({super.key, this.id});
+  const ManterPerfilArtistaPage({super.key, this.id, required this.isReadOnly});
   @override
   State<ManterPerfilArtistaPage> createState() =>
       _ManterPerfilArtistaPageState();
@@ -63,7 +64,8 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
       ArtistaRepository repository = ArtistaRepository();
       _artista = await repository.buscar(_id!);
 
-      _nomeController.text = _artista.nome;
+      setState(() {
+         _nomeController.text = _artista.nome;
       _enderecoController.text = _artista.endereco;
       _bairroController.text = _artista.bairroEndereco;
       _cidadeController.text = _artista.cidadeEndereco;
@@ -77,6 +79,9 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
       _alturaController.text = _artista.altura;
       _idadeController.text =
           _artista.idade != null ? _artista.idade.toString() : "";
+      });
+
+     
     } catch (exception) {
       showError(context, "Erro recuperando artista", exception.toString());
       Navigator.pop(context);
@@ -107,9 +112,10 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
       authProvider.login(a);
 
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Logado com sucesso.')));
+          .showSnackBar(const SnackBar(content: Text('Logado com sucesso.'),
+          behavior: SnackBarBehavior.floating));
 
-      Navigator.pushReplacementNamed(context, Routes.home);
+      Navigator.pushReplacementNamed(context, Routes.homeArtista);
 
       _nomeController.clear();
       _enderecoController.clear();
@@ -146,7 +152,8 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
       await repository.alterar(_artista);
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Artista editado com sucesso.')));
+          const SnackBar(content: Text('Artista editado com sucesso.'),
+          behavior: SnackBarBehavior.floating));
       Navigator.pop(context);
     } catch (exception) {
       showError(context, "Erro editando artista", exception.toString());
@@ -157,224 +164,277 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
     return Column(children: [
       Form(
           key: _formKey,
-          child: ListView(shrinkWrap: true, children: [
-            Row(
+          child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Nome completo'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Nome completo',
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('Nome completo',
+                            style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_nomeController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Nome completo',
+                            fillColor: Color(0)
+                          ),
+                          controller: _nomeController,
+                        ),
                       ),
-                      controller: _nomeController,
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Idade'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Idade',
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title:
+                            const Text('Idade', style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_idadeController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Idade',
+                          ),
+                          controller: _idadeController,
+                        ),
                       ),
-                      controller: _idadeController,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: Text('Peso'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Peso',
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        title:
+                            const Text('Peso', style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_pesoController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Peso',
+                          ),
+                          controller: _pesoController,
+                        ),
                       ),
-                      controller: _pesoController,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: Text('Altura'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Altura',
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('Altura',
+                            style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_alturaController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Altura',
+                          ),
+                          controller: _alturaController,
+                        ),
                       ),
-                      controller: _alturaController,
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Email'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Email',
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title:
+                            const Text('Email', style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_emailController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Email',
+                          ),
+                          controller: _emailController,
+                        ),
                       ),
-                      controller: _emailController,
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Endereço'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Endereço',
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('Endereço',
+                            style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_enderecoController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Endereço',
+                          ),
+                          controller: _enderecoController,
+                        ),
                       ),
-                      controller: _enderecoController,
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Número'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Número',
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('Número',
+                            style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_numeroController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Número',
+                          ),
+                          controller: _numeroController,
+                        ),
                       ),
-                      controller: _numeroController,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: Text('Bairro'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Bairro',
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('Bairro',
+                            style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_bairroController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Bairro',
+                          ),
+                          controller: _bairroController,
+                        ),
                       ),
-                      controller: _bairroController,
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Cidade'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Cidade',
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('Cidade',
+                            style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_cidadeController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Cidade',
+                          ),
+                          controller: _cidadeController,
+                        ),
                       ),
-                      controller: _cidadeController,
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Telefone'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Telefone',
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: const Text('Telefone',
+                            style: TextStyle(fontSize: 20)),
+                        subtitle: widget.isReadOnly ? Text(_telefoneController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            hintText: '  Telefone',
+                          ),
+                          controller: _telefoneController,
+                        ),
                       ),
-                      controller: _telefoneController,
+                    ),
+                  ],
+                ),
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Expanded(
+                    child: ListTile(
+                      title: const Text('Experiência',
+                          style: TextStyle(fontSize: 20)),
+                      subtitle: widget.isReadOnly ? Text(_experienciaController.text,
+                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4))),
+                          hintText: '  Experiência',
+                        ),
+                        controller: _experienciaController,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                child: ListTile(
-                  title: Text('Experiência'),
-                  subtitle: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4))),
-                      hintText: '  Experiência',
+                ]),
+                widget.isReadOnly ? const SizedBox.shrink() : Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Expanded(
+                    child: ListTile(
+                      title:
+                          const Text('Senha', style: TextStyle(fontSize: 20)),
+                      subtitle: TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4))),
+                          hintText: '  Senha',
+                        ),
+                        controller: _senhaController,
+                      ),
                     ),
-                    controller: _experienciaController,
                   ),
-                ),
-              ),
-            ]),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                child: ListTile(
-                  title: Text('Senha'),
-                  subtitle: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4))),
-                      hintText: '  Senha',
+                ]),
+                widget.isReadOnly ? const SizedBox.shrink() : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
+                        foregroundColor: Colors.black,
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (_id != null) {
+                            _alterar();
+                          } else {
+                            _salvar();
+                          }
+                        }
+                      },
+                      child: widget.id != null
+                ? const Text("Salvar", style: TextStyle(fontSize: 20))
+                : const Text("Cadastrar", style: TextStyle(fontSize: 20))),
+                  const SizedBox(height: 5),
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
                     ),
-                    controller: _senhaController,
+                    child: const Text(
+                      'Cancelar',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
-                ),
-              ),
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      if (_id != null) {
-                        _alterar();
-                      } else {
-                        _salvar();
-                      }
-                    }
-                  },
-                  child: const Text('Salvar')),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancelar'),
-              ),
-            ])
-          ])) // Form
+                ])
+              ])) // Form
     ]);
   }
 
@@ -392,7 +452,9 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: widget.id != null ? const Text("Meu Perfil") : const Text("Novo Perfil"),
+            title: widget.id != null
+                ? widget.isReadOnly ? const Text("Perfil Artista") : const Text("Meu Perfil")
+                : const Text("Novo Perfil"),
             //backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
             backgroundColor: Theme.of(context).colorScheme.inversePrimary),
         //drawer: const AppDrawer(),

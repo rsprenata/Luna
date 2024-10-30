@@ -18,7 +18,9 @@ class ListarCandidaturasArtistaPage extends StatefulWidget {
 
 class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtistaPage> {
   List<Candidatura> _lista = <Candidatura>[];
-  
+  List<Candidatura> _listaFiltrada = <Candidatura>[];
+  String _filtro = '';
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +31,7 @@ class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtist
     List<Candidatura> tempList = await _obterTodos();
     setState(() {
       _lista = tempList;
+      _listaFiltrada = tempList; // Inicializa a lista filtrada com todos os itens
     });
   }
 
@@ -45,92 +48,90 @@ class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtist
     return tempLista;
   }
 
+  void _filtrarLista(String valor) {
+    setState(() {
+      _filtro = valor;
+      _listaFiltrada = _lista
+          .where((candidatura) => candidatura.vaga.nome.toLowerCase().contains(valor.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text("Minhas Candidaturas"),
+      /*appBar: AppBar(
+        title: const Text("Minhas candidaturas"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      ),*/
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Table(
-            border: const TableBorder(
-              horizontalInside: BorderSide(color: Colors.grey),
-              verticalInside: BorderSide.none,
-              top: BorderSide(color: Colors.grey),
-              bottom: BorderSide(color: Colors.grey),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Filtrar',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: _filtrarLista,
+              ),
             ),
-            children: _criarLinhas(),
-          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: _listaFiltrada.map((candidatura) {
+                  return Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            candidatura.vaga.nome,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text('Valor: ${candidatura.vaga.valor}', style: const TextStyle(fontSize: 18)),
+                          Text('Data: ${candidatura.vaga.data}', style: const TextStyle(fontSize: 18)),
+                          Text('Nivel: ${candidatura.vaga.nivel.descricao}', style: const TextStyle(fontSize: 18)),
+                          Text('Status: ${candidatura.status.descricao}', style: const TextStyle(fontSize: 18)),
+                          const SizedBox(height: 16.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.visualizarVaga,
+                                    arguments: {"id": candidatura.vaga.id},
+                                  );
+                                },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
+                        foregroundColor: Colors.black,
+                      ),
+                                child: const Text('Visualizar', style: TextStyle(fontSize: 18)),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  List<TableRow> _criarLinhas() {
-    List<TableRow> rows = [];
-    rows.add(const TableRow(children: [
-      Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Text("Vaga", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
-      Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Text("Nível", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
-      Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Text("Status", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
-    ]));
-
-    for (var c in _lista) {
-      rows.add(TableRow(children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              Routes.visualizarVaga,
-              arguments: {"id": c.vaga.id},
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-            child: Text(c.vaga.nome, style: const TextStyle(fontSize: 16)),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              Routes.visualizarVaga,
-              arguments: {"id": c.vaga.id},
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-            child: Text(c.vaga.nivel.descricao, style: const TextStyle(fontSize: 16)),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              Routes.visualizarVaga,
-              arguments: {"id": c.vaga.id},
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-            child: Text(c.status.descricao, style: const TextStyle(fontSize: 16)),
-          ),
-        ),
-      ]));
-    }
-
-    return rows;
   }
 }

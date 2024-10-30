@@ -11,6 +11,18 @@ class CandidaturaRepository {
   Future<List<Candidatura>> buscarCandidaturasEmpresa(int empresaId) async {
     return await api.buscarCandidaturasEmpresa(empresaId);
   }
+  
+  Future<List<Candidatura>> buscarCandidaturasVaga(int vagaId) async {
+    return await api.buscarCandidaturasVaga(vagaId);
+  }
+  
+  Future<void> aprovarCandidatura(int id) async {
+    await api.aprovarCandidatura(id);
+  }
+  
+  Future<void> reprovarCandidatura(int id) async {
+    await api.reprovarCandidatura(id);
+  }
   /*
   Future<Vaga> buscar(int id) async {
     return await api.buscar(id);

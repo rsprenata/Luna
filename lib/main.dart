@@ -11,6 +11,7 @@ import 'package:luna/view/perfil/listar_candidaturas_artista.dart';
 import 'package:luna/view/perfil/listar_candidaturas_empresa.dart';
 import 'package:luna/view/perfil/manter_perfil_artista.dart';
 import 'package:luna/view/usuario/home.dart';
+import 'package:luna/view/usuario/home_artista.dart';
 import 'package:luna/view/vaga/listar_vagas.dart';
 import 'package:luna/view/vaga/listar_vagas_disponiveis.dart';
 import 'package:luna/view/vaga/manter_vaga.dart';
@@ -44,9 +45,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: RouteManager.generateRoute,
-      initialRoute: authProvider.isLoggedIn ? Routes.home : Routes.login,
       home: authProvider.isLoggedIn 
-          ? const HomePage()
+          ? (authProvider.usuario!.nivel == 2 
+              ? const ListarVagasPage() 
+              : const HomeArtista(initialTabIndex: 0))
           : const LoginPage(),
     );
   }

@@ -13,8 +13,7 @@ class ListarVagasDisponiveisPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ListarVagasDisponiveisPageState();
 }
 
-class _ListarVagasDisponiveisPageState
-    extends State<ListarVagasDisponiveisPage> {
+class _ListarVagasDisponiveisPageState extends State<ListarVagasDisponiveisPage> {
   List<Vaga> _lista = <Vaga>[];
   List<Vaga> _listaFiltrada = <Vaga>[];
   String _filtro = '';
@@ -48,8 +47,7 @@ class _ListarVagasDisponiveisPageState
     setState(() {
       _filtro = valor;
       _listaFiltrada = _lista
-          .where(
-              (vaga) => vaga.nome.toLowerCase().contains(valor.toLowerCase()))
+          .where((vaga) => vaga.nome.toLowerCase().contains(valor.toLowerCase()))
           .toList();
     });
   }
@@ -57,10 +55,10 @@ class _ListarVagasDisponiveisPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+     /* appBar: AppBar(
         title: const Text("Trabalhos Disponíveis"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      ),*/
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -75,117 +73,53 @@ class _ListarVagasDisponiveisPageState
               ),
             ),
             Padding(
-              // Adiciona padding ao redor da tabela
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0), // Ajuste conforme necessário
-              child: Table(
-                border: const TableBorder(
-                  horizontalInside: BorderSide(color: Colors.grey),
-                  verticalInside: BorderSide.none,
-                  top: BorderSide(color: Colors.grey),
-                  bottom: BorderSide(color: Colors.grey),
-                ),
-                children: [
-                  const TableRow(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Título',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: _listaFiltrada.map((vaga) {
+                  return Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            vaga.nome,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
+                          const SizedBox(height: 8.0),
+                          Text('Valor: ${vaga.valor}', style: const TextStyle(fontSize: 18)),
+                          Text('Data: ${vaga.data}', style: const TextStyle(fontSize: 18)),
+                          const SizedBox(height: 16.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.visualizarVaga,
+                                    arguments: {"id": vaga.id},
+                                  );
+                                },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
+                        foregroundColor: Colors.black,
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Valor',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Data',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  ..._listaFiltrada.map((vaga) {
-                    return TableRow(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.visualizarVaga,
-                              arguments: {"id": vaga.id},
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(color: Colors.grey[300]!),
+                                child: const Text('Visualizar', style: TextStyle(fontSize: 18)),
                               ),
-                              color: Colors.transparent,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 16.0, horizontal: 8.0),
-                            child: Text(
-                              vaga.nome,
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                              style: const TextStyle(fontSize: 16),
-                            ),
+                            ],
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.visualizarVaga,
-                              arguments: {"id": vaga.id},
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 16.0, horizontal: 8.0),
-                            child: Text(
-                              vaga.valor.toString(),
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.visualizarVaga,
-                              arguments: {"id": vaga.id},
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 16.0, horizontal: 8.0),
-                            child: Text(
-                              vaga.data.toString(),
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
-                ],
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ],

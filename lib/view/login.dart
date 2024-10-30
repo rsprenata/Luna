@@ -38,7 +38,8 @@ class _LoginPageState extends State<LoginPage> {
       if (usuario == null) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content:
-                Text("Usuário não encontrado. Verifique seu email e senha.")));
+                Text("Usuário não encontrado. Verifique seu email e senha."),
+          behavior: SnackBarBehavior.floating));
         return;
       }
 
@@ -46,12 +47,19 @@ class _LoginPageState extends State<LoginPage> {
       authProvider.login(usuario);
 
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Logado com sucesso.')));
+          .showSnackBar(const SnackBar(content: Text('Logado com sucesso.'),
+          behavior: SnackBarBehavior.floating));
 
-      Navigator.pushReplacementNamed(context, Routes.home);
+      if(usuario.nivel == 1) {
+        Navigator.pushReplacementNamed(context, Routes.homeArtista);
+      } else if(usuario.nivel == 2) {
+        Navigator.pushReplacementNamed(context, Routes.listarVagas);
+      }
+        
     } catch (exception) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(exception.toString())));
+          .showSnackBar(SnackBar(content: Text(exception.toString()),
+          behavior: SnackBarBehavior.floating));
     } finally {
       setState(() {
         _isLoading = false;

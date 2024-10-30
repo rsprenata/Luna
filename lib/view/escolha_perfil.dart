@@ -8,7 +8,8 @@ class EscolhaPerfilScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Escolha seu perfil'),
+        title: const Text('Escolha seu perfil'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
         child: Column(
@@ -19,23 +20,29 @@ class EscolhaPerfilScreen extends StatelessWidget {
                 // Navegue para a tela de cadastro de artista
                 Navigator.pushNamed(context, Routes.manterPerfilArtista);
               },
-              child: Text('Sou Artista'),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                textStyle: TextStyle(fontSize: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                textStyle: const TextStyle(fontSize: 20),
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                foregroundColor: Colors.black,
               ),
+              child: const Text('Sou Artista'),
             ),
-            SizedBox(height: 20), // Espaço entre os botões
+            const SizedBox(height: 20), // Espaço entre os botões
             ElevatedButton(
               onPressed: () {
                 // Navegue para a tela de cadastro de empresa
                 Navigator.pushNamed(context, Routes.manterPerfilEmpresa);
               },
-              child: Text('Sou Empresa'),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                textStyle: TextStyle(fontSize: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                textStyle: const TextStyle(fontSize: 20),
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                foregroundColor: Colors.black,
               ),
+              child: const Text('Sou Empresa'),
             ),
           ],
         ),

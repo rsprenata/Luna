@@ -52,7 +52,7 @@ class AppDrawer extends StatelessWidget {
           Icon(icon),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: Text(text),
+            child: Text(text, style: const TextStyle(fontSize: 18)),
           )
         ],
       ),
@@ -76,7 +76,7 @@ class AppDrawer extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: <Widget>[
               _createHeader(context),
-              _createDrawerItem(
+              /*_createDrawerItem(
                   icon: Icons.store,
                   text: 'Home',
                   onTap: () {
@@ -84,33 +84,57 @@ class AppDrawer extends StatelessWidget {
                     if (Navigator.canPop(context)) {
                       Navigator.pushNamed(context, Routes.home);
                     }
-                  }),
+                  }),*/
               if (nivel == 1) ...[
-                _createDrawerItem(
-                    icon: Icons.person,
-                    text: 'Meu perfil',
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, Routes.manterPerfilArtista,
-                          arguments: <String, int>{"id": idUsuario!});
-                    }),
                 _createDrawerItem(
                     icon: Icons.work,
                     text: 'Trabalhos Disponíveis',
                     onTap: () {
                       Navigator.pop(context);
+                      /*Navigator.pushNamed(
+                          context, Routes.listarVagasDisponiveis);*/
                       Navigator.pushNamed(
-                          context, Routes.listarVagasDisponiveis);
+                        context,
+                        Routes.homeArtista,
+                        arguments: <String, dynamic>{
+                            "initialTabIndex": 0
+                          },
+                      );
                     }),
                 _createDrawerItem(
                     icon: Icons.view_timeline,
                     text: 'Minhas Candidaturas',
                     onTap: () {
                       Navigator.pop(context);
+                      /*Navigator.pushNamed(
+                          context, Routes.listarCandidaturasArtista);*/
                       Navigator.pushNamed(
-                          context, Routes.listarCandidaturasArtista);
+                        context,
+                        Routes.homeArtista,
+                        arguments: <String, dynamic>{
+                            "initialTabIndex": 1
+                          },
+                      );
+                    }),
+                _createDrawerItem(
+                    icon: Icons.person,
+                    text: 'Meu perfil',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, Routes.manterPerfilArtista,
+                          arguments: <String, dynamic>{
+                            "id": idUsuario!,
+                            "isReadOnly": false
+                          });
                     }),
               ] else if (nivel == 2) ...[
+                _createDrawerItem(
+                    icon: Icons.work,
+                    text: 'Trabalhos',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, Routes.listarVagas);
+                    }),
                 _createDrawerItem(
                     icon: Icons.person,
                     text: 'Meu perfil',
@@ -118,13 +142,6 @@ class AppDrawer extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.pushNamed(context, Routes.manterPerfilEmpresa,
                           arguments: <String, int>{"id": idUsuario!});
-                    }),
-                _createDrawerItem(
-                    icon: Icons.work,
-                    text: 'Listar Vagas',
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, Routes.listarVagas);
                     }),
               ],
               // Aqui estão os itens que você deseja que fiquem embaixo
