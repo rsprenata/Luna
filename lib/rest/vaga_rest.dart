@@ -49,6 +49,7 @@ class VagaRest{
   }
 
   Future<Vaga> inserir(Vaga vaga) async {
+    print(vaga.toJson());
     final http.Response response =
         await http.post(Uri.http(API.endpoint, 'vaga/'),
             headers: <String, String>{
@@ -61,17 +62,6 @@ class VagaRest{
       throw Exception('Erro inserindo vaga.');
     }
   }
-
-  Future<bool> verificarCandidatura(int idVaga, int idArtista) async {
-    final http.Response response = await http.get(Uri.http(API.endpoint, 'vaga/verificarCandidatura/$idVaga/$idArtista'));
-    
-    if (response.statusCode == 200) {
-      return response.body.toLowerCase() == 'true';
-    } else {
-      throw Exception('Erro ao verificar candidatura: ${response.statusCode}');
-    }
-  }
-
 
   /*Future<void> remover(int id) async {
     final http.Response response = await http
