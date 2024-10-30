@@ -40,6 +40,7 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
 
   late Artista _artista;
   int? _id;
+  bool _obscurePassword = true; // Variável para controlar a visibilidade da senha
 
   @override
   void dispose() {
@@ -84,74 +85,78 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
   }
 
   void _salvar() async {
-    _artista = Artista.novo(
-        nome: _nomeController.text,
-        email: _emailController.text,
-        senha: _senhaController.text,
-        endereco: _enderecoController.text,
-        telefone: _telefoneController.text,
-        bairroEndereco: _bairroController.text,
-        numeroEndereco: _numeroController.text,
-        cidadeEndereco: _cidadeController.text,
-        peso: _pesoController.text,
-        altura: _alturaController.text,
-        experiencia: _experienciaController.text,
-        nivel: 1,
-        idade: int.parse(_idadeController.text));
+    if (_formKey.currentState!.validate()) {
+      _artista = Artista.novo(
+    nome: _nomeController.text,
+    email: _emailController.text,
+    senha: _senhaController.text,
+    endereco: _enderecoController.text,
+    telefone: _telefoneController.text,
+    bairroEndereco: _bairroController.text,
+    numeroEndereco: _numeroController.text,
+    cidadeEndereco: _cidadeController.text,
+    peso: _pesoController.text,
+    altura: _alturaController.text,
+    experiencia: _experienciaController.text,
+    nivel: 1,
+    idade: int.parse(_idadeController.text));
 
-    try {
-      ArtistaRepository repository = ArtistaRepository();
-      Artista a = await repository.inserir(_artista!);
+  try {
+    ArtistaRepository repository = ArtistaRepository();
+    Artista a = await repository.inserir(_artista!);
 
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      authProvider.login(a);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.login(a);
 
-      ScaffoldMessenger.of(context)
+    ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Logado com sucesso.')));
 
-      Navigator.pushReplacementNamed(context, Routes.home);
+    Navigator.pushReplacementNamed(context, Routes.home);
 
-      _nomeController.clear();
-      _enderecoController.clear();
-      _bairroController.clear();
-      _cidadeController.clear();
-      _numeroController.clear();
-      _enderecoController.clear();
-      _pesoController.clear();
-      _enderecoController.clear();
-      _enderecoController.clear();
-      _emailController.clear();
-      _telefoneController.clear();
-    } catch (exception) {
-      showError(context, "Erro inserindo artista", exception.toString());
-    }
+    _nomeController.clear();
+    _enderecoController.clear();
+    _bairroController.clear();
+    _cidadeController.clear();
+    _numeroController.clear();
+    _enderecoController.clear();
+    _pesoController.clear();
+    _enderecoController.clear();
+    _enderecoController.clear();
+    _emailController.clear();
+    _telefoneController.clear();
+  } catch (exception) {
+    showError(context, "Erro inserindo artista", exception.toString());
   }
+    }
+    
+}
+
 
   void _alterar() async {
     _artista.nome = _nomeController.text;
-    _artista.email = _emailController.text;
-    _artista.senha = _senhaController.text;
-    _artista.endereco = _enderecoController.text;
-    _artista.telefone = _telefoneController.text;
-    _artista.bairroEndereco = _bairroController.text;
-    _artista.numeroEndereco = _numeroController.text;
-    _artista.cidadeEndereco = _cidadeController.text;
-    _artista.peso = _pesoController.text;
-    _artista.altura = _alturaController.text;
-    _artista.experiencia = _experienciaController.text;
+  _artista.email = _emailController.text;
+  _artista.senha = _senhaController.text;
+  _artista.endereco = _enderecoController.text;
+  _artista.telefone = _telefoneController.text;
+  _artista.bairroEndereco = _bairroController.text;
+  _artista.numeroEndereco = _numeroController.text;
+  _artista.cidadeEndereco = _cidadeController.text;
+  _artista.peso = _pesoController.text;
+  _artista.altura = _alturaController.text;
+  _artista.experiencia = _experienciaController.text;
     _artista.idade = int.parse(_idadeController.text);
 
-    try {
-      ArtistaRepository repository = ArtistaRepository();
-      await repository.alterar(_artista);
+  try {
+    ArtistaRepository repository = ArtistaRepository();
+    await repository.alterar(_artista);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Artista editado com sucesso.')));
-      Navigator.pop(context);
-    } catch (exception) {
-      showError(context, "Erro editando artista", exception.toString());
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Artista editado com sucesso.')));
+    Navigator.pop(context);
+  } catch (exception) {
+    showError(context, "Erro editando artista", exception.toString());
   }
+}
 
   Widget _buildForm(BuildContext context) {
     return Column(children: [
@@ -159,117 +164,185 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
           key: _formKey,
           child: ListView(shrinkWrap: true, children: [
             Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Nome completo'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Nome completo',
+            children: [
+              Expanded(
+                child: ListTile(
+                  title: Text('Nome completo'),
+                  subtitle: TextFormField(
+                    controller: _nomeController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      controller: _nomeController,
+                      hintText: '  Nome completo',
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo inválido';
+                      }
+                      return null; // Retorne null se a validação for bem-sucedida
+                    },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+
             Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Idade'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Idade',
-                      ),
-                      controller: _idadeController,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: Text('Peso'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Peso',
-                      ),
-                      controller: _pesoController,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: Text('Altura'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Altura',
-                      ),
-                      controller: _alturaController,
-                    ),
-                  ),
-                ),
-              ],
+  children: [
+    Expanded(
+      child: ListTile(
+        title: Text('Idade'),
+        subtitle: TextFormField(
+          controller: _idadeController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
+            hintText: '  Idade',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Campo inválido';
+            }
+            final idade = int.tryParse(value);
+            if (idade == null || idade <= 0) {
+              return 'Campo inválido';
+            }
+            return null; // Retorne null se a validação for bem-sucedida
+          },
+        ),
+      ),
+    ),
+    SizedBox(
+      width: 5,
+    ),
+    Expanded(
+      child: ListTile(
+        title: Text('Peso'),
+        subtitle: TextFormField(
+          controller: _pesoController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
+            hintText: '  Peso',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Campo inválido';
+            }
+            final peso = double.tryParse(value);
+            if (peso == null || peso <= 0) {
+              return 'Campo inválido';
+            }
+            return null; // Retorne null se a validação for bem-sucedida
+          },
+        ),
+      ),
+    ),
+    SizedBox(
+      width: 5,
+    ),
+    Expanded(
+      child: ListTile(
+        title: Text('Altura'),
+        subtitle: TextFormField(
+          controller: _alturaController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
+            hintText: '  Altura',
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Campo inválido';
+            }
+            final altura = double.tryParse(value);
+            if (altura == null || altura <= 0) {
+              return 'Campo inválido';
+            }
+            return null; // Retorne null se a validação for bem-sucedida
+          },
+        ),
+      ),
+    ),
+  ],
+),
+
             Row(
               children: [
                 Expanded(
                   child: ListTile(
                     title: Text('Email'),
                     subtitle: TextFormField(
+                      controller: _emailController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
                         hintText: '  Email',
                       ),
-                      controller: _emailController,
+                      validator: (value) {
+                        // Validação básica para verificar se é um email válido
+                        String pattern = r'^[^@]+@[^@]+\.[^@]+';
+                        RegExp regExp = RegExp(pattern);
+                        if (value == null || value.isEmpty || !regExp.hasMatch(value)) {
+                          return 'Email inválido'; // Mensagem se o email não for válido
+                        }
+                        return null; // Retorne null se a validação for bem-sucedida
+                      },
                     ),
                   ),
                 ),
               ],
             ),
+
             Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Endereço'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Endereço',
+            children: [
+              Expanded(
+                child: ListTile(
+                  title: Text('Endereço'),
+                  subtitle: TextFormField(
+                    controller: _enderecoController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      controller: _enderecoController,
+                      hintText: '  Endereço',
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                      }
+                      return null; // Retorne null se a validação for bem-sucedida
+                    },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+
             Row(
               children: [
                 Expanded(
                   child: ListTile(
                     title: Text('Número'),
                     subtitle: TextFormField(
+                      controller: _numeroController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
                         hintText: '  Número',
                       ),
-                      controller: _numeroController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                        }
+                        return null; // Retorne null se a validação for bem-sucedida
+                      },
                     ),
                   ),
                 ),
@@ -280,81 +353,140 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                   child: ListTile(
                     title: Text('Bairro'),
                     subtitle: TextFormField(
+                      controller: _bairroController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
                         hintText: '  Bairro',
                       ),
-                      controller: _bairroController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                        }
+                        return null; // Retorne null se a validação for bem-sucedida
+                      },
                     ),
                   ),
                 ),
               ],
             ),
+
             Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Cidade'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Cidade',
+            children: [
+              Expanded(
+                child: ListTile(
+                  title: Text('Cidade'),
+                  subtitle: TextFormField(
+                    controller: _cidadeController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      controller: _cidadeController,
+                      hintText: '  Cidade',
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                      }
+                      return null; // Retorne null se a validação for bem-sucedida
+                    },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+
             Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text('Telefone'),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Telefone',
+            children: [
+              Expanded(
+                child: ListTile(
+                  title: Text('Telefone'),
+                  subtitle: TextFormField(
+                    controller: _telefoneController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      controller: _telefoneController,
+                      hintText: '  Telefone',
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                      }
+                      return null; // Retorne null se a validação for bem-sucedida
+                    },
                   ),
                 ),
-              ],
-            ),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              ),
+            ],
+          ),
+
+            Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
               Expanded(
                 child: ListTile(
                   title: Text('Experiência'),
                   subtitle: TextFormField(
+                    controller: _experienciaController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4))),
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
                       hintText: '  Experiência',
                     ),
-                    controller: _experienciaController,
+                    maxLines: null, // Define um número de linhas para caber mais texto
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                      }
+                      return null; // Retorne null se a validação for bem-sucedida
+                    },
                   ),
                 ),
               ),
-            ]),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                child: ListTile(
-                  title: Text('Senha'),
-                  subtitle: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4))),
-                      hintText: '  Senha',
+            ],
+          ),
+
+
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Senha'),
+                    subtitle: TextFormField(
+                      controller: _senhaController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        hintText: '  Senha',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                      ),
+                      obscureText: _obscurePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                        }
+                        return null; // Retorne null se a validação for bem-sucedida
+                      },
                     ),
-                    controller: _senhaController,
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
+
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                   onPressed: () {
