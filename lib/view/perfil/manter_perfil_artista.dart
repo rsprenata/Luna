@@ -392,8 +392,9 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: widget.id != null ? const Text("Editar Perfil") : const Text("Novo Perfil"),
-            backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
+            title: widget.id != null ? const Text("Meu Perfil") : const Text("Novo Perfil"),
+            //backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary),
         //drawer: const AppDrawer(),
         body: SingleChildScrollView(
           child: _buildForm(context),

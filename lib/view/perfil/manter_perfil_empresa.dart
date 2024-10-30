@@ -343,8 +343,9 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: widget.id != null ? const Text("Editar Empresa") : const Text("Cadastrar Empresa"),
-            backgroundColor: const Color.fromRGBO(159, 34, 190, 0.965)),
+            title: widget.id != null ? const Text("Meu Perfil") : const Text("Cadastrar Empresa"),
+            //backgroundColor: const Color.fromRGBO(159, 34, 190, 0.965)),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary),
         //drawer: const AppDrawer(),
         body: SingleChildScrollView(
           child: _buildForm(context),

@@ -237,7 +237,8 @@ class _ListarVagasPageState extends State<ListarVagasPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Listagem de Vagas"),
+        title: const Text("Listar Vagas"),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       //drawer: const AppDrawer(),
       body: ListView.builder(

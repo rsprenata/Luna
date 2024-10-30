@@ -62,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, 
       appBar: AppBar(automaticallyImplyLeading: false,),
       body: Form(
           key: _formKey,
@@ -88,7 +89,16 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const Text(
+                    'LUNA',
+                    style: TextStyle(
+                      fontSize: 40, 
+                      fontWeight: FontWeight.bold, 
+                      letterSpacing: 2.0, 
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -173,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                                     )
                                   : const Text(
                                       'Entrar',
-                                      style: TextStyle(fontSize: 18),
+                                      style: TextStyle(fontSize: 22),
                                     ),
                         ),
                       ]),
@@ -184,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: const Text(
                       'Criar Conta',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ],

@@ -244,7 +244,8 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
             title: widget.id != null
                 ? Text("Editar vaga")
                 : Text("Inserir nova vaga"),
-            backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
+            //backgroundColor: Color.fromRGBO(159, 34, 190, 0.965)),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary),
         //drawer: const AppDrawer(),
         body: SingleChildScrollView(
           child: _buildForm(context),
