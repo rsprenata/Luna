@@ -45,9 +45,9 @@ class _HomePageState extends State<HomePage> {
                     context, Icons.person, "Meu Perfil", Colors.blue, Routes.manterPerfilArtista,
                     arguments: {'id': idUsuario, "isReadOnly": false}),
                 _buildSquareButton(
-                    context, Icons.work, "Vagas Disponíveis", Colors.green, Routes.listarVagasDisponiveis),
+                    context, Icons.work, "Trabalhos Disponíveis", Colors.green, Routes.listarVagasDisponiveis),
                 _buildSquareButton(
-                    context, Icons.accessible_forward, "Minhas Candidaturas", Colors.purple, Routes.listarCandidaturasArtista),
+                    context, Icons.view_timeline, "Minhas Candidaturas", Colors.purple, Routes.listarCandidaturasArtista),
               ]
               else if (nivel == 2) ...[
                 _buildSquareButton(
@@ -56,7 +56,6 @@ class _HomePageState extends State<HomePage> {
                 _buildSquareButton(
                     context, Icons.work, "Listar Vagas", Colors.green, Routes.listarVagas),
               ]
-              /* Outros botões que você queira */
               /*_buildSquareButton(context, Icons.home, "Home", Colors.blue, '/home'),
     _buildSquareButton(context, Icons.shopping_cart, "Carrinho", Colors.red, '/carrinho'),
     _buildSquareButton(context, Icons.settings, "Configurações", Colors.purple, '/configuracoes'),

@@ -21,6 +21,10 @@ class VagaRepository {
   Future<Vaga> inserir(Vaga artista) async {
     return await api.inserir(artista);
   }
+
+  Future<bool> verificarCandidatura(int idVaga, int idArtista) async {
+    return await api.verificarCandidatura(idVaga, idArtista);
+  }
   /*Future<Vaga> remover(int id) async {
     return await api.remover(id);
   }*/

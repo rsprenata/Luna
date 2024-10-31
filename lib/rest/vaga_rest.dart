@@ -63,6 +63,16 @@ class VagaRest{
     }
   }
 
+  Future<bool> verificarCandidatura(int idVaga, int idArtista) async {
+    final http.Response response = await http.get(Uri.http(API.endpoint, 'vaga/verificarCandidatura/$idVaga/$idArtista'));
+    
+    if (response.statusCode == 200) {
+      return response.body.toLowerCase() == 'true';
+    } else {
+      throw Exception('Erro ao verificar candidatura: ${response.statusCode}');
+    }
+  }
+
   /*Future<void> remover(int id) async {
     final http.Response response = await http
         .delete(Uri.http(API.endpoint, '/vaga/$id'), headers: <String, String>{
