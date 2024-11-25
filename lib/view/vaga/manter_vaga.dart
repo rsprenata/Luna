@@ -16,6 +16,7 @@ import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dataFormatter.dart';
+import 'realFormatter.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterVagaPage extends StatefulWidget {
@@ -187,25 +188,32 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
             Row(
               children: [
                 Expanded(
-                  child: ListTile(
-                    title: const Text('Valor', style: TextStyle(fontSize: 20)),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Valor',
-                      ),
-                      validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
-                      }
-                      return null; // Retorne null se a validação for bem-sucedida
-                    },
-                      controller: _valorController,
-                    ),
-                  ),
-                ),
+  child: ListTile(
+    title: const Text('Valor', style: TextStyle(fontSize: 20)),
+    subtitle: TextFormField(
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+        hintText: '  Valor',
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+        }
+        return null; // Retorne null se a validação for bem-sucedida
+      },
+      controller: _valorController,
+      keyboardType: TextInputType.number,
+      inputFormatters: [RealInputFormatter()],
+    ),
+  ),
+),
+
+
+
               ],
+
             ),
             Row(
               children: [
