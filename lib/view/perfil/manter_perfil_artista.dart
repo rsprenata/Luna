@@ -11,6 +11,7 @@ import 'package:luna/routes/routes.dart';
 import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'masked_input_formatter.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterPerfilArtistaPage extends StatefulWidget {
@@ -69,6 +70,7 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
     _enderecoController.dispose();
     super.dispose();
   }
+  
 
   void _obterUsuario() async {
     try {
@@ -464,27 +466,39 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                   children: [
                     Expanded(
                       child: ListTile(
-                        title: const Text('Telefone',
-                            style: TextStyle(fontSize: 18)),
-                        subtitle: widget.isReadOnly ? Text(_telefoneController.text,
-                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
-                            hintText: '  Telefone',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
-                            }
-                            return null; // Retorne null se a validação for bem-sucedida
-                          },
-                          controller: _telefoneController,
-                        ),
+                        title: const Text('Telefone', style: TextStyle(fontSize: 18)),
+                        subtitle: widget.isReadOnly
+                            ? Text(_telefoneController.text,
+                                style: const TextStyle(fontSize: 16, color: Colors.black))
+                            : TextFormField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                                  hintText: '  Telefone',
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                                  }
+                                  // Validação de telefone com a máscara
+                                  String phonePattern =
+                                      r'^\(\d{2}\) \d{5}-\d{4}$';  // Expressão regular para validar o telefone no formato (XX) XXXXX-XXXX
+                                  RegExp regex = RegExp(phonePattern);
+                                  if (!regex.hasMatch(value)) {
+                                    return 'Telefone inválido'; // Mensagem de erro se o telefone for inválido
+                                  }
+                                  return null; // Retorne null se a validação for bem-sucedida
+                                },
+                                controller: _telefoneController,
+                                inputFormatters: [
+                                  // Formatação do texto para o telefone
+                                  MaskedInputFormatter('(##) #####-####'),
+                                ],
+                              ),
                       ),
                     ),
                   ],
+
                 ),
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                      Expanded(
