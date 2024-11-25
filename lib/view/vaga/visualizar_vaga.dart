@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/artista.dart';
 import 'package:luna/model/candidatura.dart';
+import 'package:luna/model/especialidade.dart';
 import 'package:luna/model/status.dart';
 import 'package:luna/model/usuario.dart';
 import 'package:luna/model/vaga.dart';
@@ -74,11 +75,12 @@ class _VisualizarVagaPageState extends State<VisualizarVagaPage> {
         bairroEndereco: "bairroEndereco",
         numeroEndereco: "numeroEndereco",
         cidadeEndereco: "cidadeEndereco",
-        nivel: 2,
+        nivel: 1,
         peso: "peso",
         altura: "altura",
         experiencia: "experiencia",
-        idade: 22);
+        idade: 22,
+        especialidade: Especialidade(1, "descricao"));
 
     Candidatura _candidatura =
         Candidatura.novo(vaga, _artista, Status(3, "Em análise"));

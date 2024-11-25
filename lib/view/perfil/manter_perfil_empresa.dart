@@ -37,6 +37,8 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
   final _descricaoController = TextEditingController();
 
   int? _id = 0;
+  bool _obscurePassword = true; // Variável para controlar a visibilidade da senha
+
 
   late Empresa _empresa;
   @override
@@ -157,6 +159,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Nome da empresa',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _nomeController,
                         ),
                       ),
@@ -176,6 +184,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Descrição da empresa',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _descricaoController,
                         ),
                       ),
@@ -195,6 +209,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  CNPJ da empresa',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _cnpjController,
                         ),
                       ),
@@ -214,6 +234,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Email',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _emailController,
                         ),
                       ),
@@ -233,6 +259,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Endereço',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _enderecoController,
                         ),
                       ),
@@ -252,6 +284,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Número',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _numeroController,
                         ),
                       ),
@@ -270,6 +308,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Bairro',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _bairroController,
                         ),
                       ),
@@ -289,6 +333,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Cidade',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _cidadeController,
                         ),
                       ),
@@ -308,6 +358,12 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Telefone',
                           ),
+                          validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                        }
+                        return null; // Retorne null se a validação for bem-sucedida
+                      },
                           controller: _telefoneController,
                         ),
                       ),
@@ -315,53 +371,81 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                   ],
                 ),
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  
                   Expanded(
-                    child: ListTile(
-                      title:
-                          const Text('Senha', style: TextStyle(fontSize: 20)),
-                      subtitle: TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4))),
-                          hintText: '  Senha',
+                  child: ListTile(
+                    title: Text('Senha'),
+                    subtitle: TextFormField(
+                      controller: _senhaController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
                         ),
-                        controller: _senhaController,
+                        hintText: '  Senha',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  ),
-                ]),
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          if (_id != null) {
-                            _alterar();
-                          } else {
-                            _salvar();
-                          }
+                      obscureText: _obscurePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
                         }
+                        return null; // Retorne null se a validação for bem-sucedida
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.inversePrimary,
-                        foregroundColor: Colors.black,
-                      ),
-                      child:
-                      widget.id != null
-                ? const Text("Salvar", style: TextStyle(fontSize: 20))
-                : const Text("Cadastrar", style: TextStyle(fontSize: 20))),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
                     ),
-                    child:
-                        const Text('Cancelar', style: TextStyle(fontSize: 20)),
                   ),
-                ])
+                ),
+                ]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 150, // Define a largura desejada para o botão "Cancelar"
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                        ),
+                        child: const Text('Cancelar', style: TextStyle(fontSize: 20)),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    SizedBox(
+                      width: 150, // Define a largura desejada para o botão "Salvar"
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            if (_id != null) {
+                              _alterar();
+                            } else {
+                              _salvar();
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                          foregroundColor: Colors.black,
+                        ),
+                        child: widget.id != null
+                            ? const Text("Salvar", style: TextStyle(fontSize: 20))
+                            : const Text("Cadastrar", style: TextStyle(fontSize: 20)),
+                      ),
+                    )
+                    
+                  ],
+                )
+
+
               ])) // Form
     ]);
   }

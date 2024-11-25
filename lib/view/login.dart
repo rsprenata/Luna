@@ -37,29 +37,31 @@ class _LoginPageState extends State<LoginPage> {
 
       if (usuario == null) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content:
-                Text("Usuário não encontrado. Verifique seu email e senha."),
-          behavior: SnackBarBehavior.floating));
+          content: Text("Usuário não encontrado. Verifique seu email e senha."),
+          behavior: SnackBarBehavior.floating,
+        ));
         return;
       }
 
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       authProvider.login(usuario);
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Logado com sucesso.'),
-          behavior: SnackBarBehavior.floating));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Logado com sucesso.'),
+        behavior: SnackBarBehavior.floating,
+      ));
 
-      if(usuario.nivel == 1) {
-        Navigator.pushReplacementNamed(context, Routes.homeArtista);
-      } else if(usuario.nivel == 2) {
+      if (usuario.nivel == 1) {
+        Navigator.pushReplacementNamed(context, Routes.homeArtista, arguments: {"initialTabIndex": 0},);
+      } else if (usuario.nivel == 2) {
         Navigator.pushReplacementNamed(context, Routes.listarVagas);
       }
         
     } catch (exception) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(exception.toString()),
-          behavior: SnackBarBehavior.floating));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(exception.toString()),
+        behavior: SnackBarBehavior.floating,
+      ));
     } finally {
       setState(() {
         _isLoading = false;
@@ -73,142 +75,144 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false, 
       appBar: AppBar(automaticallyImplyLeading: false,),
       body: Form(
-          key: _formKey,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      borderRadius: BorderRadius.circular(20),
+        key: _formKey,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Transform(
+                    transform: Matrix4.identity()
+                      ..rotateZ(-30 * (3.14159265359 / 180))
+                      ..translate(-40.0, 20.0),
+                    child: const Icon(
+                      Icons.nightlight_round_outlined,
+                      size: 100,
+                      color: Colors.white,
                     ),
-                    child: Transform(
-                      transform: Matrix4.identity()
-                        ..rotateZ(-30 * (3.14159265359 / 180))
-                        ..translate(-40.0, 20.0),
-                      child: const Icon(
-                        Icons.nightlight_round_outlined,
-                        size: 100,
-                        color: Colors.white,
+                  ),
+                ),
+                const Text(
+                  'LUNA',
+                  style: TextStyle(
+                    fontSize: 40, 
+                    fontWeight: FontWeight.bold, 
+                    letterSpacing: 2.0, 
+                    color: Colors.deepPurple,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0), // Adiciona espaçamento lateral
+                      child: TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          filled: true,
+                          fillColor: Colors.purple[50],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, insira um email';
+                          }
+                          return null;
+                        },
                       ),
                     ),
-                  ),
-                  const Text(
-                    'LUNA',
-                    style: TextStyle(
-                      fontSize: 40, 
-                      fontWeight: FontWeight.bold, 
-                      letterSpacing: 2.0, 
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            filled: true,
-                            fillColor: Colors.purple[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                    const SizedBox(height: 10), // Espaçamento entre os campos
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0), // Adiciona espaçamento lateral
+                      child: TextFormField(
+                        controller: _senhaController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          hintText: 'Senha',
+                          filled: true,
+                          fillColor: Colors.purple[50],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, insira um email';
-                            }
-
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          controller: _senhaController,
-                          obscureText: _obscurePassword,
-                          decoration: InputDecoration(
-                            hintText: 'Senha',
-                            filled: true,
-                            fillColor: Colors.purple[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
                             ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscurePassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, insira uma senha';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () {
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+                              _login();
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: _isLoading // Mostra indicador de progresso se carregando
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
+                            )
+                          : const Text(
+                              'Entrar',
+                              style: TextStyle(fontSize: 22),
                             ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, insira uma senha';
-                            }
-
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: _isLoading
-                              ? null
-                              : () {
-                                  if (!_formKey.currentState!.validate()) {
-                                    return;
-                                  }
-                                  _login();
-                                },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child:
-                              _isLoading // Mostra indicador de progresso se carregando
-                                  ? const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                  : const Text(
-                                      'Entrar',
-                                      style: TextStyle(fontSize: 22),
-                                    ),
-                        ),
-                      ]),
-                  const SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, Routes.escolhaPerfil);
-                    },
-                    child: const Text(
-                      'Criar Conta',
-                      style: TextStyle(fontSize: 20),
                     ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.escolhaPerfil);
+                  },
+                  child: const Text(
+                    'Criar Conta',
+                    style: TextStyle(fontSize: 20),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 

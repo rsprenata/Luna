@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:luna/model/empresa.dart';
-import 'package:luna/model/nivel.dart';
+import 'package:luna/model/especialidade.dart';
 
 
 class Vaga {
@@ -12,11 +12,11 @@ class Vaga {
   String valor;
   String data;
   int qtdVagas;
-  Nivel nivel;
+  Especialidade especialidade;
   Empresa empresa;
 
-  Vaga(this.id, this.nome, this.descricao, this.valor, this.data, this.qtdVagas, this.nivel, this.empresa);
-  Vaga.novo(this.nome, this.descricao, this.valor, this.data, this.qtdVagas, this.nivel, this.empresa);
+  Vaga(this.id, this.nome, this.descricao, this.valor, this.data, this.qtdVagas, this.especialidade, this.empresa);
+  Vaga.novo(this.nome, this.descricao, this.valor, this.data, this.qtdVagas, this.especialidade, this.empresa);
   Map<String, dynamic> toMap() {
     return {
       'id':id,
@@ -25,7 +25,7 @@ class Vaga {
       'valor': valor,
       'data': data,
       'qtdVagas': qtdVagas,
-      'nivel': nivel.toMap(),
+      'especialidade': especialidade.toMap(),
       'empresa': empresa.toMap(),
     };
   }
@@ -38,7 +38,7 @@ class Vaga {
       map['valor'],
       map['data'],
       map['qtdVagas'],
-      Nivel.fromMap(map['nivel']),
+      Especialidade.fromMap(map['especialidade']),
       Empresa.fromMap(map['empresa'])
     );
   }

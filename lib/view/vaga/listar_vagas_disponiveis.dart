@@ -94,6 +94,7 @@ class _ListarVagasDisponiveisPageState extends State<ListarVagasDisponiveisPage>
                           const SizedBox(height: 8.0),
                           Text('Valor: ${vaga.valor}', style: const TextStyle(fontSize: 18)),
                           Text('Data: ${vaga.data}', style: const TextStyle(fontSize: 18)),
+                          Text('Especialidade: ${vaga.especialidade.descricao}', style: const TextStyle(fontSize: 18)),
                           const SizedBox(height: 16.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

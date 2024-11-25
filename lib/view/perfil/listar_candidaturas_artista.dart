@@ -99,7 +99,7 @@ class _ListarCandidaturasArtistaPageState extends State<ListarCandidaturasArtist
                           const SizedBox(height: 8.0),
                           Text('Valor: ${candidatura.vaga.valor}', style: const TextStyle(fontSize: 18)),
                           Text('Data: ${candidatura.vaga.data}', style: const TextStyle(fontSize: 18)),
-                          Text('Nivel: ${candidatura.vaga.nivel.descricao}', style: const TextStyle(fontSize: 18)),
+                          Text('Especialidade: ${candidatura.vaga.especialidade.descricao}', style: const TextStyle(fontSize: 18)),
                           Text('Status: ${candidatura.status.descricao}', style: const TextStyle(fontSize: 18)),
                           const SizedBox(height: 16.0),
                           Row(

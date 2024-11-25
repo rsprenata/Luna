@@ -8,6 +8,7 @@ class ArtistaRest{
     final http.Response response =
         await http.get(Uri.http(API.endpoint, '/artista/$id'));
     if (response.statusCode == 200) {
+      print(response.body);
       return Artista.fromJson(response.body);
     } else {
       throw Exception(

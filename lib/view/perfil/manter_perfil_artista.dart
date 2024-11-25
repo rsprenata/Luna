@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:luna/helper/error.dart';
 import 'package:luna/model/artista.dart';
+import 'package:luna/model/especialidade.dart';
 import 'package:luna/model/usuario.dart';
 import 'package:luna/provider/auth_provider.dart';
 import 'package:luna/repositories/artista_repository.dart';
@@ -15,7 +16,7 @@ import 'package:provider/provider.dart';
 class ManterPerfilArtistaPage extends StatefulWidget {
   final int? id;
   final bool isReadOnly; // Novo parâmetro opcional
-
+  
   static const String routeName = '/perfil/ver';
 
   const ManterPerfilArtistaPage({super.key, this.id, required this.isReadOnly});
@@ -41,6 +42,16 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
 
   late Artista _artista;
   int? _id;
+  //_especialidadeController = 'Ator';
+  bool _obscurePassword = true; // Variável para controlar a visibilidade da senha
+  Especialidade? _selectedEspecialidade;
+  List<Especialidade> especialidades = [
+  Especialidade(1, 'Ator/Atriz'),
+  Especialidade(2, 'Modelo'),
+  Especialidade(3, 'Artista Plástico'),
+];
+
+
 
   @override
   void dispose() {
@@ -79,6 +90,9 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
       _alturaController.text = _artista.altura;
       _idadeController.text =
           _artista.idade != null ? _artista.idade.toString() : "";
+          print("_artista.especialidade");
+          print(_artista.especialidade.toJson());
+      _selectedEspecialidade = _artista.especialidade;
       });
 
      
@@ -102,6 +116,7 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
         altura: _alturaController.text,
         experiencia: _experienciaController.text,
         nivel: 1,
+        especialidade: _selectedEspecialidade!,
         idade: int.parse(_idadeController.text));
 
     try {
@@ -146,6 +161,7 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
     _artista.altura = _alturaController.text;
     _artista.experiencia = _experienciaController.text;
     _artista.idade = int.parse(_idadeController.text);
+    _artista.especialidade = _selectedEspecialidade!;
 
     try {
       ArtistaRepository repository = ArtistaRepository();
@@ -173,9 +189,9 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title: const Text('Nome completo',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_nomeController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
@@ -183,6 +199,12 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                             hintText: '  Nome completo',
                             fillColor: Color(0)
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _nomeController,
                         ),
                       ),
@@ -194,15 +216,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title:
-                            const Text('Idade', style: TextStyle(fontSize: 20)),
+                            const Text('Idade', style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_idadeController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Idade',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _idadeController,
                         ),
                       ),
@@ -213,15 +241,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title:
-                            const Text('Peso', style: TextStyle(fontSize: 20)),
+                            const Text('Peso', style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_pesoController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Peso',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _pesoController,
                         ),
                       ),
@@ -232,15 +266,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title: const Text('Altura',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_alturaController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Altura',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _alturaController,
                         ),
                       ),
@@ -248,19 +288,69 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                   ],
                 ),
                 Row(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      title: const Text(
+                        'Especialidade',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      subtitle: widget.isReadOnly
+                          ? Text(
+                              _selectedEspecialidade != null
+                                  ? _selectedEspecialidade!.descricao
+                                  : 'Nenhuma especialidade selecionada',
+                              style: const TextStyle(fontSize: 16, color: Colors.black),
+                            )
+                          : 
+                            DropdownButtonFormField<Especialidade>(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                                ),
+                              ),
+                              value: _selectedEspecialidade, // O valor atual selecionado
+                              items: especialidades.map((especialidade) {
+                                return DropdownMenuItem<Especialidade>(
+                                  value: especialidade, // Define o objeto Especialidade como valor
+                                  child: Text(especialidade.descricao), // Exibe a descrição no dropdown
+                                );
+                              }).toList(),
+                              onChanged: (Especialidade? value) {
+                                setState(() {
+                                  print("value");
+                                  print(value!.toJson());
+                                  _selectedEspecialidade = value; // Atualiza o valor selecionado
+                                });
+                              },
+                              hint: const Text('Selecione uma especialidade'),
+                            )
+
+                    ),
+                  ),
+                ],
+
+              ),
+                Row(
                   children: [
                     Expanded(
                       child: ListTile(
                         title:
-                            const Text('Email', style: TextStyle(fontSize: 20)),
+                            const Text('Email', style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_emailController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Email',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _emailController,
                         ),
                       ),
@@ -272,15 +362,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title: const Text('Endereço',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_enderecoController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Endereço',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _enderecoController,
                         ),
                       ),
@@ -292,15 +388,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title: const Text('Número',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_numeroController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Número',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _numeroController,
                         ),
                       ),
@@ -311,15 +413,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title: const Text('Bairro',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_bairroController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Bairro',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _bairroController,
                         ),
                       ),
@@ -331,15 +439,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title: const Text('Cidade',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_cidadeController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Cidade',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _cidadeController,
                         ),
                       ),
@@ -351,15 +465,21 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                     Expanded(
                       child: ListTile(
                         title: const Text('Telefone',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 18)),
                         subtitle: widget.isReadOnly ? Text(_telefoneController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) : TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4))),
                             hintText: '  Telefone',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                           controller: _telefoneController,
                         ),
                       ),
@@ -367,72 +487,107 @@ class _ManterPerfilArtistaPageState extends State<ManterPerfilArtistaPage> {
                   ],
                 ),
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Experiência',
-                          style: TextStyle(fontSize: 20)),
-                      subtitle: widget.isReadOnly ? Text(_experienciaController.text,
-                            style: const TextStyle(fontSize: 18,color: Colors.black)) : TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4))),
-                          hintText: '  Experiência',
+                     Expanded(
+                      child: ListTile(
+                        title: Text('Experiência',
+                        style: TextStyle(fontSize: 18)),
+                        subtitle: widget.isReadOnly ? Text(_experienciaController.text,
+                            style: const TextStyle(fontSize: 16,color: Colors.black)) :TextFormField(
+                          controller: _experienciaController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                            ),
+                            hintText: '  Experiência',
+                          ),
+                          maxLines: null, // Define um número de linhas para caber mais texto
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                            }
+                            return null; // Retorne null se a validação for bem-sucedida
+                          },
                         ),
-                        controller: _experienciaController,
                       ),
                     ),
-                  ),
                 ]),
-                widget.isReadOnly ? const SizedBox.shrink() : Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Expanded(
-                    child: ListTile(
-                      title:
-                          const Text('Senha', style: TextStyle(fontSize: 20)),
-                      subtitle: TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4))),
-                          hintText: '  Senha',
+                widget.isReadOnly ? const SizedBox.shrink() : 
+                            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Senha'),
+                    subtitle: TextFormField(
+                      controller: _senhaController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
                         ),
-                        controller: _senhaController,
+                        hintText: '  Senha',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  ),
-                ]),
-                widget.isReadOnly ? const SizedBox.shrink() : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.inversePrimary,
-                        foregroundColor: Colors.black,
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          if (_id != null) {
-                            _alterar();
-                          } else {
-                            _salvar();
-                          }
+                      obscureText: _obscurePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
                         }
+                        return null; // Retorne null se a validação for bem-sucedida
                       },
-                      child: widget.id != null
-                ? const Text("Salvar", style: TextStyle(fontSize: 20))
-                : const Text("Cadastrar", style: TextStyle(fontSize: 20))),
-                  const SizedBox(height: 5),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                    ),
-                    child: const Text(
-                      'Cancelar',
-                      style: TextStyle(fontSize: 20),
                     ),
                   ),
+                ),
+              ],
+            ),
+                widget.isReadOnly ? const SizedBox.shrink() :
+                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center, 
+                 children: [
+                  SizedBox(
+                      width: 150, // Define a largura desejada para o botão "Cancelar"
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                        ),
+                        child: const Text('Cancelar', style: TextStyle(fontSize: 18)),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    SizedBox(
+                      width: 150, // Define a largura desejada para o botão "Salvar"
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            if (_id != null) {
+                              _alterar();
+                            } else {
+                              _salvar();
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                          foregroundColor: Colors.black,
+                        ),
+                        child: widget.id != null
+                            ? const Text("Salvar", style: TextStyle(fontSize: 18))
+                            : const Text("Cadastrar", style: TextStyle(fontSize: 18)),
+                      ),
+                    )
+                  
+                  
                 ])
               ])) // Form
     ]);

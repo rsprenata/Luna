@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:luna/model/especialidade.dart';
 import 'package:luna/model/usuario.dart';
 
 class Artista extends Usuario {
@@ -8,6 +9,7 @@ class Artista extends Usuario {
   String altura;
   String experiencia;
   int? idade;
+  Especialidade especialidade;
 
 
   Artista({
@@ -24,7 +26,8 @@ class Artista extends Usuario {
     required this.peso,
     required this.altura,
     required this.experiencia,
-    required this.idade
+    required this.idade,
+    required this.especialidade
   }) : super(
           id,
           nome,
@@ -50,7 +53,8 @@ class Artista extends Usuario {
     required this.peso,
     required this.altura,
     required this.experiencia,
-    required this.idade
+    required this.idade,
+    required this.especialidade
   }) : super.novo(
           nome,
           email,
@@ -78,7 +82,8 @@ class Artista extends Usuario {
       'numeroEndereco': numeroEndereco,
       'cidadeEndereco': cidadeEndereco,
       'nivel': nivel,
-      'idade': idade
+      'idade': idade,
+      'especialidade': especialidade.toMap()
     };
   }
 
@@ -98,7 +103,8 @@ class Artista extends Usuario {
       altura: map['altura'],
       experiencia: map['experiencia'],
       idade: map['idade'],
-      nivel: map['nivel']
+      nivel: map['nivel'],
+      especialidade: Especialidade.fromMap(map['especialidade'])
     );
   }
 
