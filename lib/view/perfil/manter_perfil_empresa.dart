@@ -11,6 +11,7 @@ import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'masked_input_formatter.dart';
+import 'cnpjFormatter.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterPerfilEmpresaPage extends StatefulWidget {
@@ -199,28 +200,33 @@ class _ManterPerfilEmpresaPageState extends State<ManterPerfilEmpresaPage> {
                 ),
                 Row(
                   children: [
-                    Expanded(
-                      child: ListTile(
-                        title: const Text('CNPJ da empresa',
-                            style: TextStyle(fontSize: 20)),
-                        subtitle: TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
-                            hintText: '  CNPJ da empresa',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
-                            }
-                            return null; // Retorne null se a validação for bem-sucedida
-                          },
-                          controller: _cnpjController,
-                        ),
-                      ),
-                    ),
-                  ],
+  Expanded(
+    child: ListTile(
+      title: const Text('CNPJ da empresa', style: TextStyle(fontSize: 20)),
+      subtitle: TextFormField(
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+          ),
+          hintText: '  CNPJ da empresa',
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+          }
+          if (value.length != 18) {
+            return 'CNPJ inválido'; // Mensagem de erro se o CNPJ não tiver o tamanho correto
+          }
+          return null; // Validação bem-sucedida
+        },
+        controller: _cnpjController,
+        keyboardType: TextInputType.number,
+        inputFormatters: [CNPJInputFormatter()],
+      ),
+    ),
+  ),
+],
+
                 ),
                 Row(
                   children: [
