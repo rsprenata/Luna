@@ -15,6 +15,7 @@ import 'package:luna/routes/routes.dart';
 import 'package:luna/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dataFormatter.dart';
 //import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ManterVagaPage extends StatefulWidget {
@@ -214,46 +215,35 @@ class _ManterVagaPageState extends State<ManterVagaPage> {
                     subtitle: TextFormField(
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Data',
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        hintText: '  Data (dd/mm/aaaa)',
                       ),
                       validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
-                      }
-                      return null; // Retorne null se a validação for bem-sucedida
-                    },
+                        if (value == null || value.isEmpty) {
+                          return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
+                        }
+
+                        // Verificar se a data está no formato correto
+                        String datePattern = r'^\d{2}/\d{2}/\d{4}$';
+                        RegExp regex = RegExp(datePattern);
+                        if (!regex.hasMatch(value)) {
+                          return 'Data inválida';
+                        }
+                        return null;
+                      },
                       controller: _dataController,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: ListTile(
-                    title: const Text('Vagas', style: TextStyle(fontSize: 20)),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        hintText: '  Vagas',
-                      ),
-                      validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Campo inválido'; // Mensagem de erro se o campo estiver vazio
-                      }
-                      return null; // Retorne null se a validação for bem-sucedida
-                    },
-                      controller: _qtdVagasController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
+                        DateInputFormatter(),
                       ],
                     ),
                   ),
                 ),
+                const SizedBox(width: 5),
+                // Outros campos continuam aqui...
               ],
+
             ),
             Row(
               children: [
